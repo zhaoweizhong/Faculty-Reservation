@@ -47,6 +47,7 @@
         </div>
     </div>
     <global-footer :link-list="linkList" :copyright="copyright" />
+    <div><img src="../../../images/logo-sustc.svg" style="position: fixed;height: 500px;bottom: -80px;left: -100px;opacity: 0.1;z-index: 100;" alt=""></div>
 </div>
 </template>
 
@@ -116,7 +117,9 @@ export default {
                             const user = result.data.user
                             this.$router.push('/')
                             this.$store.commit('account/setuser', user)
-                            this.$message.success(result.message, 3)
+                            var time = new Date()
+                            var hour = time.getHours()
+                            this.$message.success(hour < 9 ? '早上好' : (hour <= 11 ? '上午好' : (hour <= 13 ? '中午好' : (hour <= 20 ? '下午好' : '晚上好'))) + '，欢迎回来', 1)
                         } else {
                             this.error = result.message
                         }
@@ -134,13 +137,13 @@ export default {
     flex-direction: column;
     height: 100vh;
     overflow: auto;
-    background: #f0f2f5 url("https://gw.alipayobjects.com/zos/rmsportal/TVYTbAXWheQpRcWDaDMu.svg") no-repeat center 110px;
+    background: #f0f2f5 url("../../../images/login-bg.svg") no-repeat center 110px;
     background-size: 100%;
     .content {
         padding: 32px 0;
         flex: 1;
         @media (min-width: 768px) {
-            padding: 112px 0 24px;
+            padding: 150px 0 24px;
         }
         .top {
             text-align: center;
@@ -154,9 +157,13 @@ export default {
                 }
             }
         }
+        .ant-tabs-bar {
+            margin-bottom: 18px;
+        }
         .login {
             width: 368px;
             margin: 0 auto;
+            margin-top: 10px;
             @media screen and (max-width: 576px) {
                 width: 95%;
             }

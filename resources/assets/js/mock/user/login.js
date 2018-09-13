@@ -19,7 +19,7 @@ Mock.mock('/login', 'post', ({body}) => {
     result.message = '用户名或密码错误'
   } else {
     result.code = 0
-    result.message = Mock.mock('@TIMEFIX') + '，欢迎回来'
+    //result.message = Mock.mock('@TIMEFIX') + '，欢迎回来'
     result.data = {}
     result.data.user = user
   }

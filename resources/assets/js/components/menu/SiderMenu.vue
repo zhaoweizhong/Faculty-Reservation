@@ -1,7 +1,7 @@
 <template>
   <a-layout-sider :class="[theme, 'sider', isMobile ? null : 'shadow']" width="256px" :collapsible="collapsible" v-model="collapsed" :trigger="null">
     <div :class="['logo', theme]">
-      <router-link to="/"><img :alt="systemName" class="logo" :src="collapsed ? '../../../images/logo-notext.svg' : '../../../images/logo.svg'" /></router-link>
+      <router-link to="/"><img :alt="systemName" class="logo" :src="collapsed ? '../../../images/logo-sustc.svg' : '../../../images/logo.svg'" /></router-link>
     </div>
     <i-menu :theme="theme" :collapsed="collapsed" :menuData="menuData" @select="onSelect"/>
   </a-layout-sider>
