@@ -1,15 +1,10 @@
 <template>
-  <div id="app">
-    <example></example>
-    <el-button icon="edit">Hello Element</el-button>
-  </div>
+    <div id="app">
+        <router-view></router-view>
+    </div>
 </template>
 <script>
-  import Example from './components/Example.vue';
-  export default {
-    name: 'app',
-    components: {
-      Example
+    export default {
+        name: 'App'
     }
-  };
 </script>
