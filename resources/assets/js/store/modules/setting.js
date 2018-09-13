@@ -4,12 +4,10 @@ export default {
     isMobile: false,
     theme: 'dark',
     layout: 'side',
-    systemName: 'Vue Antd Admin',
-    copyright: '2018 ICZER 工作室出品',
+    systemName: '教师查询预约系统',
+    copyright: '2018 All rights reserved.',
     footerLinks: [
-      {link: 'https://pro.ant.design', name: 'Pro首页'},
-      {link: 'https://github.com/iczer/vue-antd-admin', icon: 'github'},
-      {link: 'https://ant.design', name: 'Ant Design'}
+      {link: 'https://github.com/zhaoweizhong/Tutor-Reservation', icon: 'github'}
     ]
   },
   mutations: {

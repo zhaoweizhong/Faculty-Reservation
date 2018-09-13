@@ -1,10 +1,7 @@
 <template>
   <a-layout-sider :class="[theme, 'sider', isMobile ? null : 'shadow']" width="256px" :collapsible="collapsible" v-model="collapsed" :trigger="null">
     <div :class="['logo', theme]">
-      <router-link to="/">
-        <img src="static/img/vue-antd-logo.png">
-        <h1>{{systemName}}</h1>
-      </router-link>
+      <router-link to="/"><img :alt="systemName" class="logo" :src="collapsed ? '../../../images/logo-notext.svg' : '../../../images/logo.svg'" /></router-link>
     </div>
     <i-menu :theme="theme" :collapsed="collapsed" :menuData="menuData" @select="onSelect"/>
   </a-layout-sider>
@@ -69,7 +66,7 @@ export default {
       height: 64px;
       position: relative;
       line-height: 64px;
-      padding-left: 24px;
+      text-align: center;
       -webkit-transition: all .3s;
       transition: all .3s;
       overflow: hidden;
@@ -97,7 +94,7 @@ export default {
         vertical-align: middle;
       }
       img{
-        width: 32px;
+        height: 50px;
         display: inline-block;
         vertical-align: middle;
       }
