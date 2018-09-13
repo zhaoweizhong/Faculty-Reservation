@@ -1,9 +1,10 @@
-import Home from './components/Example.vue'
+import Home from './components/Home.vue'
+import Example from './components/Example.vue'
 
 const routes = [
     {
         path: '/',
-        component: Example
+        component: Home
     },
     {
         path: '/example',
