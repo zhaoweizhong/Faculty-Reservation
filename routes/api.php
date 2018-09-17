@@ -13,6 +13,19 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+$api = app('Dingo\Api\Routing\Router');
+$api->version('v1', [
+    'namespace' => 'App\Http\Controllers\Api',
+    //'middleware' => ['serializer:array', 'bindings']
+], function($api) {
+    /* 主要API */
+    $api->get('', function () {
+        return response()->json([
+            'message' => 'Welcome to SUSTC Faculty Search & Appointment System API.',
+            'status_code' => 200
+        ])->setStatusCode(200);
+    })->name('api.home.show');
+    //用户注册
+    $api->post('users', 'UsersController@store')
+    ->name('api.users.store');
 });
