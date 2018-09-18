@@ -45,5 +45,8 @@ $api->version('v1', [
         //编辑当前登录用户信息
         $api->patch('user', 'UsersController@update')
             ->name('api.user.update');
+        //上传图片
+        $api->post('images', 'ImagesController@store')
+            ->name('api.images.store');
     });
 });
