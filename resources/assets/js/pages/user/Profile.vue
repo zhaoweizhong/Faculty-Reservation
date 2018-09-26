@@ -12,9 +12,13 @@
                         <div class="mask-content">
                             <svg class="Zi Zi--Camera UserAvatarEditor-cameraIcon" fill="currentColor" viewBox="0 0 24 24" width="36" height="36"><path d="M20.094 6S22 6 22 8v10.017S22 20 19 20H4.036S2 20 2 18V7.967S2 6 4 6h3s1-2 2-2h6c1 0 2 2 2 2h3.094zM12 16a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7zm0 1.5a5 5 0 1 0-.001-10.001A5 5 0 0 0 12 17.5zm7.5-8a1 1 0 1 0 0-2 1 1 0 0 0 0 2z" fill-rule="evenodd"></path></svg>
                             <div class="mask-text">修改我的头像</div>
+
                         </div>
                     </div>
                 </label>
+                <avatar-cropper
+                  :upload-handler="handleUpload"
+                  trigger="#mask" />
             </div>
             <div class="content">
                 <div class="name">
@@ -82,6 +86,7 @@ import DetailList from '../../components/tool/DetailList'
 import ADivider from 'ant-design-vue/es/divider/index'
 import ATable from 'ant-design-vue/es/table'
 import PageLayout from '../../layouts/PageLayout'
+import AvatarCropper from "vue-avatar-cropper"
 
 const DetailListItem = DetailList.Item
 
@@ -236,13 +241,23 @@ export default {
         ATooltip,
         ACard,
         AIcon,
-        ATag
+        ATag,
+        AvatarCropper
     },
     computed: {
       currUser () {
         return this.$store.state.account.user
       }
     },
+    outputOptions: {
+        type: Object,
+        default() {
+          return {
+            width: 512,
+            height: 512
+          }
+        }
+      },
     mounted() {
         $("#avatar").hover(function(){
             $("#mask").removeClass("mask-hidden");
@@ -256,6 +271,42 @@ export default {
             goodsData,
             scheduleColumns,
             scheduleData
+        }
+    },
+    methods: {
+        handleUpload(result) {
+            result.getCroppedCanvas(this.outputOptions).toBlob((blob) => {
+                var formData = new FormData()
+                formData.append("image", blob)
+                let config = {
+                    headers:{'Content-Type':'multipart/form-data'}
+                };
+                this.$axios.post('/api/images', formData, config)
+                .then((resp) => {
+                    let res = resp.data;
+                    console.log('resp ' + resp)
+                    if (res.status_code == 201) {
+                        this.$store.state.account.user.avatar_url = res.url;
+
+                        this.$axios.patch('/api/user', {
+                            avatar_url: res.url
+                        }).then((response) => {
+                            console.log('response ' + response)
+                            let result = response.data
+                            if (response.status == 201) {
+                                this.$message.success('头像设置成功')
+                            }
+                        }).catch((error) => {
+                            console.log('User Patch Error: ' + error.response.data.message);
+                        })
+
+                    } else {
+                        console.log('Upload Error: ' + JSON.stringify(res));
+                    }
+                }).catch((err) => {
+                    console.log('Upload Error: ' + JSON.stringify(err));
+                });
+            })
         }
     }
 }
@@ -282,7 +333,6 @@ export default {
 
 .avatar {
     float: left;
-    width: 140px;
     .avatar-wrapper {
         cursor: pointer;
     }
