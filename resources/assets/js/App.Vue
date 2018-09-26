@@ -45,4 +45,15 @@ export default {
       padding: 0px;
     }
   }
+  body {
+      -webkit-font-smoothing: antialiased;
+  }
+  ::selection {
+      background: #CCE2FF!important;
+      color: inherit!important;
+  }
+  ::-moz-selection {
+      background: #CCE2FF!important;
+      color: inherit!important;
+  }
 </style>
