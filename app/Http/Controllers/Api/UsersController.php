@@ -32,7 +32,7 @@ class UsersController extends Controller
     {
         $user = $this->user();
 
-        $attributes = $request->only(['name', 'email', 'avatar_url', 'intro', 'office', 'fields', 'available_time', 'gpa', 'interested_fields']);
+        $attributes = $request->only(['name', 'email', 'avatar_url', 'intro', 'department', 'major', 'office', 'fields', 'available_time', 'gpa', 'interested_fields']);
 
         $user->update($attributes);
 

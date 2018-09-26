@@ -1,31 +1,34 @@
-import PouchDB from 'pouchdb'
-
-var db = new PouchDB('admindb')
+import { setCookie, removeCookie } from 'tiny-cookie'
+import store from '../../store'
+import axios from 'axios'
+import message from 'ant-design-vue/es/message'
+import router from '../../router/lazy'
 
 export default {
   namespaced: true,
   state: {
+    token: '',
     user: {}
   },
   mutations: {
-    setuser (state, user) {
-      state.user = user
-      db.get('currUser').then(doc => {
-        db.put({
-          _id: 'currUser',
-          _rev: doc._rev,
-          user: user
-        })
-      }).catch(e => {
-        if (e.status === 404) {
-          db.put({
-            _id: 'currUser',
-            user: user
-          })
-        } else {
-          throw e
-        }
-      })
-    }
+    login (state, token) {
+        state.token = token
+        setCookie('token', token)
+        axios.defaults.headers.common['Authorization'] = 'Bearer ' + token
+        axios.get('/api/user')
+            .then(function(response) {
+                state.user = response.data
+            });
+    },
+    logout (state) {
+        state.token = ''
+        removeCookie('token')
+    },
+    // 用户刷新 token 成功，使用新的 token 替换掉本地的token
+    refreshToken(state, token) {
+        state.token = token
+        setCookie('token', token)
+        axios.defaults.headers.common['Authorization'] = 'Bearer ' + token
+    },
   }
 }
