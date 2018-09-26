@@ -23,13 +23,33 @@ import axios from 'axios'
 import message from 'ant-design-vue/es/message'
 import './mock'
 import store from './store'
-import PouchDB from 'pouchdb'
+import { getCookie } from 'tiny-cookie'
 
 Vue.prototype.$axios = axios
 Vue.prototype.router = router
 Vue.prototype.$message = message
+Vue.prototype.$store = store
 Vue.config.productionTip = false
 Vue.use(Viser)
+
+axios.interceptors.response.use(function(response) {
+        return response
+}, function(error) {
+        const originalRequest = error.config
+    if (error.response.status === 401 && !originalRequest._retry) {
+        originalRequest._retry = true
+                axios.defaults.headers.common['Authorization'] = 'Bearer ' + getCookie('token')
+                return axios.put('/api/authorizations/current')
+        .then((res) => {
+            //console.log('Data: ' + JSON.stringify(data))
+            store.commit('account/refreshToken', res.data.access_token)
+            // retry request
+            originalRequest.headers.Authorization = 'Bearer ' + res.data.access_token
+            return axios(originalRequest)
+        })
+    }
+        return Promise.reject(error)
+})
 
 /* eslint-disable no-new */
 new Vue({
@@ -37,11 +57,5 @@ new Vue({
     router,
     store,
     components: { App },
-    template: '<App/>',
-    mounted () {
-        var db = new PouchDB('admindb')
-        db.get('currUser').then(doc => {
-            this.$store.commit('account/setuser', doc.user)
-        })
-    }
+    template: '<App/>'
 })

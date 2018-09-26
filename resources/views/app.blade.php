@@ -9,6 +9,7 @@
   <body>
     <div id="app"></div>
     <!-- built files will be auto injected -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
     <script src="{{ mix('js/main.js') }}"></script>
   </body>
 </html>
