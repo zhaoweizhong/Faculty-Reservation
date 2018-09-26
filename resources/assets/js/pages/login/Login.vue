@@ -64,6 +64,7 @@ import ACol from 'ant-design-vue/es/grid/Col'
 import ARow from 'ant-design-vue/es/grid/Row'
 import ACheckbox from 'ant-design-vue/es/checkbox/Checkbox'
 import AAlert from 'ant-design-vue/es/alert/index'
+import { setCookie } from 'tiny-cookie'
 
 const ATabPane = ATabs.TabPane
 
@@ -107,22 +108,25 @@ export default {
             this.form.validateFields((err, values) => {
                 if (!err) {
                     this.logging = true
-                    this.$axios.post('/login', {
+                    this.$axios.post('/api/authorizations', {
                         sid: this.form.getFieldValue('sid'),
                         password: this.form.getFieldValue('password')
                     }).then((res) => {
                         this.logging = false
                         const result = res.data
-                        if (result.code >= 0) {
-                            const user = result.data.user
+                        if (res.status == 201) {
+                            const user = result.meta
+                            setCookie('token', result.access_token)
+                            this.$axios.defaults.headers.common['Authorization'] = 'Bearer ' + result.access_token
+                            this.$store.commit('account/login', result.access_token)
                             this.$router.push('/')
-                            this.$store.commit('account/setuser', user)
                             var time = new Date()
                             var hour = time.getHours()
                             this.$message.success(hour < 9 ? '早上好' : (hour <= 11 ? '上午好' : (hour <= 13 ? '中午好' : (hour <= 20 ? '下午好' : '晚上好'))) + '，欢迎回来', 1)
-                        } else {
-                            this.error = result.message
                         }
+                    }).catch((error) => {
+                        this.logging = false
+                        this.error = error.response.data.message
                     })
                 }
             })

@@ -5,8 +5,10 @@ import RouteView from '../layouts/RouteView'
 import MenuView from '../layouts/MenuView'
 import Login from '../pages/login/Login'
 
-import WorkPlace from '../pages/dashboard/WorkPlace'
-import Analysis from '../pages/dashboard/Analysis'
+import Dashboard from '../pages/Dashboard'
+import Profile from '../pages/user/Profile'
+import Settings from '../pages/user/Settings'
+
 import BasicForm from '../pages/form/BasicForm'
 import StepForm from '../pages/form/stepForm/StepForm'
 import AdvancedForm from '../pages/form/advancedForm/AdvancedForm'
@@ -27,14 +29,20 @@ import Error500 from '../pages/exception/500'
 import TaskCard from '../pages/components/TaskCard'
 import Palette from '../pages/components/Palette'
 
+import store from '../store'
+import { getCookie } from 'tiny-cookie'
+
 Vue.use(Router)
 
-export default new Router({
+var router = new Router({
   mode: 'history',
   routes: [
     {
       path: '/login',
       name: '登录页',
+      meta: {
+          requiresNoAuth: true
+      },
       component: Login,
       invisible: true
     },
@@ -42,15 +50,38 @@ export default new Router({
       path: '/',
       name: '首页',
       component: MenuView,
-      redirect: '/login',
+      //redirect: '/login',
       icon: 'none',
       invisible: true,
       children: [
         {
             path: '/',
             name: '仪表盘',
-            component: Analysis,
+            meta: {
+                requiresAuth: true
+            },
+            component: Dashboard,
             icon: 'dashboard'
+        },
+        {
+          path: '/user/profile',
+          name: '个人中心',
+          meta: {
+              requiresAuth: true
+          },
+          component: Profile,
+          invisible: true,
+          icon: 'none'
+        },
+        {
+          path: '/user/settings',
+          name: '个人设置',
+          meta: {
+              requiresAuth: true
+          },
+          component: Settings,
+          invisible: true,
+          icon: 'none'
         },
         {
           path: '/form',
@@ -228,3 +259,33 @@ export default new Router({
     }
   ]
 })
+
+router.beforeEach((to, from, next) => {
+  //获取store里面的token
+  //let token = store.state.token;
+  //判断要去的路由有没有requiresAuth
+  if(to.meta.requiresAuth){//需要认证
+    store.commit('account/login', getCookie('token'))
+    if(store.state.account.token){
+      next();
+    }else{
+      next({
+        path: '/login',
+        query: { redirect: to.fullPath }  // 将刚刚要去的路由path（却无权限）作为参数，方便登录成功后直接跳转到该路由
+      });
+    }
+
+}else if (to.meta.requiresNoAuth) {//需要不认证
+    if(!store.state.account.token){
+      next();
+    }else{
+      next({
+        path: '/'
+      });
+    }
+}{
+    next();//如果无需token,那么随它去吧
+  }
+});
+
+export default router

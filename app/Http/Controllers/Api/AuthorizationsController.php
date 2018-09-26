@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use App\Transformers\UserTransformer;
 use App\Http\Requests\Api\AuthorizationRequest;
 
 class AuthorizationsController extends Controller
@@ -21,7 +22,8 @@ class AuthorizationsController extends Controller
         return $this->response->array([
             'access_token' => $token,
             'token_type' => 'Bearer',
-            'expires_in' => \Auth::guard('api')->factory()->getTTL() * 60
+            'expires_in' => \Auth::guard('api')->factory()->getTTL() * 60,
+            'meta' => \Auth::guard('api')->user()
         ])->setStatusCode(201);
     }
 
@@ -30,7 +32,8 @@ class AuthorizationsController extends Controller
         return $this->response->array([
             'access_token' => $token,
             'token_type' => 'Bearer',
-            'expires_in' => \Auth::guard('api')->factory()->getTTL() * 60
+            'expires_in' => \Auth::guard('api')->factory()->getTTL() * 60,
+            'meta' => \Auth::guard('api')->user()
         ]);
     }
 
