@@ -14,7 +14,7 @@ class AuthorizationRequest extends FormRequest
     public function rules()
     {
         return [
-            'sid' => 'required',
+            'sid'      => 'required',
             'password' => 'required',
         ];
     }

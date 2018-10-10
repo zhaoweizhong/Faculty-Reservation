@@ -13,7 +13,7 @@ class ImagesController extends Controller {
             $cdn = 'https://f.zzwcdn.com/';
             $url = $cdn . Storage::putFile($path, $request->image);
             return response()->json([
-                    'url' => $url,
+                    'url'         => $url,
                     'status_code' => 201
                 ])->setStatusCode(201);
     }

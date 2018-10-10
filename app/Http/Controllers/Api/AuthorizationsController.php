@@ -21,9 +21,9 @@ class AuthorizationsController extends Controller
 
         return $this->response->array([
             'access_token' => $token,
-            'token_type' => 'Bearer',
-            'expires_in' => \Auth::guard('api')->factory()->getTTL() * 60,
-            'meta' => \Auth::guard('api')->user()
+            'token_type'   => 'Bearer',
+            'expires_in'   => \Auth::guard('api')->factory()->getTTL() * 60,
+            'meta'         => \Auth::guard('api')->user()
         ])->setStatusCode(201);
     }
 
@@ -31,9 +31,9 @@ class AuthorizationsController extends Controller
     {
         return $this->response->array([
             'access_token' => $token,
-            'token_type' => 'Bearer',
-            'expires_in' => \Auth::guard('api')->factory()->getTTL() * 60,
-            'meta' => \Auth::guard('api')->user()
+            'token_type'   => 'Bearer',
+            'expires_in'   => \Auth::guard('api')->factory()->getTTL() * 60,
+            'meta'         => \Auth::guard('api')->user()
         ]);
     }
 

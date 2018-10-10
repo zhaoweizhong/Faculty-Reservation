@@ -12,18 +12,18 @@ class UsersController extends Controller
     public function store(UserRequest $request)
     {
         $user = User::create([
-            'sid' => $request->sid,
+            'sid'      => $request->sid,
             'password' => bcrypt($request->password),
-            'name' => $request->name,
-            'email' => $request->email,
-            'type' => $request->type,
+            'name'     => $request->name,
+            'email'    => $request->email,
+            'type'     => $request->type,
         ]);
 
         return $this->response->item($user, new UserTransformer())
             ->setMeta([
                 'access_token' => \Auth::guard('api')->fromUser($user),
-                'token_type' => 'Bearer',
-                'expires_in' => \Auth::guard('api')->factory()->getTTL() * 60
+                'token_type'   => 'Bearer',
+                'expires_in'   => \Auth::guard('api')->factory()->getTTL() * 60
             ])
             ->setStatusCode(201);
     }
