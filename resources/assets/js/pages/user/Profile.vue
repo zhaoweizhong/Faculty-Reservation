@@ -34,7 +34,7 @@
                         </div>
                         <div>
                             <a-icon type="book" />
-                            <span>{{ currUser.department}}</span><span class="divider"></span><span>{{ currUser.major}}</span>
+                            <span>{{ currUser.department}}</span><span class="divider"></span><span>{{ currUser.major }}</span>
                         </div>
                     </div>
                     <div v-else>
@@ -53,6 +53,7 @@
                 <router-link to="/user/settings">
                     <a-button type="dashed" icon="edit" size="default">编辑个人资料</a-button>
                 </router-link>
+                <a-button type="dashed" size="default" @click="userOutput">测试</a-button>
             </div>
         </div>
 
@@ -125,6 +126,9 @@ export default {
     );
   },
   methods: {
+    userOutput() {
+      console.log("user: " + JSON.stringify(currUser));
+    },
     handleUpload(result) {
       result.getCroppedCanvas(this.outputOptions).toBlob(blob => {
         var formData = new FormData();

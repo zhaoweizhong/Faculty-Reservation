@@ -22,7 +22,9 @@ import axios from "axios";
 import message from "ant-design-vue/es/message";
 import "./mock";
 import store from "./store";
-import { getCookie } from "tiny-cookie";
+import {
+    getCookie
+} from "tiny-cookie";
 
 Vue.prototype.$axios = axios;
 Vue.prototype.router = router;
@@ -32,10 +34,10 @@ Vue.config.productionTip = false;
 Vue.use(Viser);
 
 axios.interceptors.response.use(
-    function(response) {
+    function (response) {
         return response;
     },
-    function(error) {
+    function (error) {
         const originalRequest = error.config;
         if (error.response.status === 401 && !originalRequest._retry) {
             originalRequest._retry = true;
@@ -59,6 +61,8 @@ new Vue({
     el: "#app",
     router,
     store,
-    components: { App },
+    components: {
+        App
+    },
     template: "<App/>"
 });
