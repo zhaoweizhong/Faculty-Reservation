@@ -24,74 +24,80 @@
                     <span>个人资料</span>
                 </div>
                 <div class="profile-content">
-                    <div class="left ant-col-md-8">
-                        <a-form>
+                    <a-form :onSubmit="profileSubmit">
+                        <div class="ant-row">
+                            <div class="left ant-col-8">
+                                <a-form-item
+                                    :labelCol="{ span: 4 }"
+                                    :wrapperCol="{ span: 24 }"
+                                    label='姓名'
+                                    :colon='false'
+                                >
+                                    <a-input placeholder='姓名' :value='currUser.name' disabled/>
+                                </a-form-item>
+                                <a-form-item
+                                    :labelCol="{ span: 4 }"
+                                    :wrapperCol="{ span: 24 }"
+                                    label='邮箱'
+                                    :colon='false'
+                                >
+                                    <a-input placeholder='邮箱' :value='currUser.email' disabled/>
+                                </a-form-item>
+                                <a-form-item
+                                    :labelCol="{ span: 4 }"
+                                    :wrapperCol="{ span: 24 }"
+                                    label='院系'
+                                    :colon='false'
+                                >
+                                    <a-input placeholder='院系' :value='currUser.department' disabled/>
+                                </a-form-item>
+                                <a-form-item
+                                    :labelCol="{ span: 4 }"
+                                    :wrapperCol="{ span: 24 }"
+                                    label='专业'
+                                    :colon='false'
+                                >
+                                    <a-input placeholder='专业' :value='currUser.department' disabled/>
+                                </a-form-item>
+                                <a-form-item
+                                    :labelCol="{ span: 4 }"
+                                    :wrapperCol="{ span: 24 }"
+                                    label='GPA'
+                                    :colon='false'
+                                >
+                                    <a-input placeholder='GPA' :value='currUser.gpa' disabled/>
+                                </a-form-item>
+                                <a-form-item
+                                    :labelCol="{ span: 8 }"
+                                    :wrapperCol="{ span: 24 }"
+                                    label='兴趣方向'
+                                    :colon='false'
+                                    fieldDecoratorId="interested_fields"
+                                    :fieldDecoratorOptions="{rules: [{ required: true, message: '请输入兴趣方向' }]}"
+                                >
+                                    <a-textarea placeholder='兴趣方向...' :value='currUser.interested_fields' id='interested_fields' :autosize="{ minRows: 2 }"/>
+                                </a-form-item>
+                            </div>
+                            <div class="right ant-col-16">
+                                <a-form-item
+                                    :labelCol="{ span: 3 }"
+                                    :wrapperCol="{ span: 24 }"
+                                    label='个人介绍'
+                                    :colon='false'
+                                    fieldDecoratorId="intro"
+                                    :fieldDecoratorOptions="{rules: [{ required: true, message: '请输入个人介绍' }]}"
+                                >
+                                    <a-textarea placeholder='个人介绍...' :value='currUser.intro' id='intro' :autosize="{ minRows: 21.5 }"/>
+                                </a-form-item>
+                            </div>
+                        </div>
+                        <div class="ant-row">
                             <a-form-item
-                                :labelCol="{ span: 4 }"
-                                :wrapperCol="{ span: 24 }"
-                                label='姓名'
-                                :colon='false'
                             >
-                                <a-input placeholder='姓名' :value='currUser.name' disabled/>
+                                <a-button type='primary' htmlType='submit' size="large">提交</a-button>
                             </a-form-item>
-                            <a-form-item
-                                :labelCol="{ span: 4 }"
-                                :wrapperCol="{ span: 24 }"
-                                label='邮箱'
-                                :colon='false'
-                            >
-                                <a-input placeholder='邮箱' :value='currUser.email' disabled/>
-                            </a-form-item>
-                            <a-form-item
-                                :labelCol="{ span: 4 }"
-                                :wrapperCol="{ span: 24 }"
-                                label='院系'
-                                :colon='false'
-                            >
-                                <a-input placeholder='院系' :value='currUser.department' disabled/>
-                            </a-form-item>
-                            <a-form-item
-                                :labelCol="{ span: 4 }"
-                                :wrapperCol="{ span: 24 }"
-                                label='专业'
-                                :colon='false'
-                            >
-                                <a-input placeholder='专业' :value='currUser.major' disabled/>
-                            </a-form-item>
-                            <a-form-item
-                                :labelCol="{ span: 4 }"
-                                :wrapperCol="{ span: 24 }"
-                                label='GPA'
-                                :colon='false'
-                            >
-                                <a-input placeholder='GPA' :value='currUser.gpa' disabled/>
-                            </a-form-item>
-                            <a-form-item
-                                :labelCol="{ span: 8 }"
-                                :wrapperCol="{ span: 24 }"
-                                label='兴趣方向'
-                                :colon='false'
-                                fieldDecoratorId="interested_fields"
-                                :fieldDecoratorOptions="{rules: [{ required: true, message: '请输入兴趣方向' }]}"
-                            >
-                                <a-textarea placeholder='兴趣方向...' :value='currUser.interested_fields' id='interested_fields' :autosize="{ minRows: 2 }"/>
-                            </a-form-item>
-                        </a-form>
-                    </div>
-                    <div class="right ant-col-md-16">
-                        <a-form>
-                            <a-form-item
-                                :labelCol="{ span: 3 }"
-                                :wrapperCol="{ span: 24 }"
-                                label='个人介绍'
-                                :colon='false'
-                                fieldDecoratorId="intro"
-                                :fieldDecoratorOptions="{rules: [{ required: true, message: '请输入个人介绍' }]}"
-                            >
-                                <a-textarea placeholder='个人介绍...' :value='currUser.intro' id='intro' :autosize="{ minRows: 20 }"/>
-                            </a-form-item>
-                        </a-form>
-                    </div>
+                        </div>
+                    </a-form>
                 </div>
             </div>
             <div v-else-if="this.current == '2'" class="col-right">
@@ -148,7 +154,12 @@ export default {
   },
   data() {
     return {
-      current: "1"
+      current: "1",
+      fields: {
+        major: {
+          value: this.$store.state.account.user.major
+        }
+      }
     };
   },
   computed: {
@@ -159,6 +170,13 @@ export default {
   methods: {
     handleClick(e) {
       this.current = e.key;
+    },
+    profileSubmit(e) {
+      this.form.validateFields((err, values) => {
+        if (!err) {
+          console.log("Received values of form: ", values);
+        }
+      });
     }
   }
 };
@@ -197,14 +215,13 @@ export default {
 }
 
 .profile-content {
-  display: flex;
   .left {
     max-width: 448px;
     min-width: 224px;
     float: left;
     text-align: left;
     .ant-form-item {
-      margin-bottom: 15px;
+      margin-bottom: 16px;
     }
     .ant-form-item-label {
       text-align: left;
@@ -212,11 +229,14 @@ export default {
     }
   }
   .right {
-    padding-left: 104px;
+    padding-left: 40px;
     position: relative;
     .ant-form-item-label {
       text-align: left;
       line-height: 2;
+    }
+    .ant-form-item-control-wrapper {
+      margin-top: 3px;
     }
   }
 }

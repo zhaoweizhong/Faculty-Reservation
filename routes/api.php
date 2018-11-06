@@ -16,7 +16,7 @@ use Illuminate\Http\Request;
 $api = app('Dingo\Api\Routing\Router');
 $api->version('v1', [
     'namespace'  => 'App\Http\Controllers\Api',
-    'middleware' => ['serializer: array', 'bindings']
+    'middleware' => ['serializer:array', 'bindings']
 ], function($api) {
     /* 主要API */
     $api->get('', function () {
