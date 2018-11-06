@@ -7,6 +7,8 @@
 /.vscode
 /.vagrant
 /public
+/public/*
+/public/*/*
 Homestead.json
 Homestead.yaml
 npm-debug.log
@@ -14,3 +16,4 @@ yarn-error.log
 .env
 .phpunit.result.cache
 .DS_Store
+*/.DS_Store
