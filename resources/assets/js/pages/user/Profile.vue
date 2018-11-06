@@ -12,7 +12,6 @@
                         <div class="mask-content">
                             <svg class="Zi Zi--Camera UserAvatarEditor-cameraIcon" fill="currentColor" viewBox="0 0 24 24" width="36" height="36"><path d="M20.094 6S22 6 22 8v10.017S22 20 19 20H4.036S2 20 2 18V7.967S2 6 4 6h3s1-2 2-2h6c1 0 2 2 2 2h3.094zM12 16a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7zm0 1.5a5 5 0 1 0-.001-10.001A5 5 0 0 0 12 17.5zm7.5-8a1 1 0 1 0 0-2 1 1 0 0 0 0 2z" fill-rule="evenodd"></path></svg>
                             <div class="mask-text">修改我的头像</div>
-
                         </div>
                     </div>
                 </label>
@@ -34,7 +33,7 @@
                         </div>
                         <div>
                             <a-icon type="book" />
-                            <span>{{ currUser.department}}</span><span class="divider"></span><span>{{ currUser.major}}</span>
+                            <span>{{ currUser.department}}</span><span class="divider"></span><span>{{ currUser.major }}</span>
                         </div>
                     </div>
                     <div v-else>

@@ -15,13 +15,13 @@ use Illuminate\Http\Request;
 
 $api = app('Dingo\Api\Routing\Router');
 $api->version('v1', [
-    'namespace' => 'App\Http\Controllers\Api',
+    'namespace'  => 'App\Http\Controllers\Api',
     'middleware' => ['serializer:array', 'bindings']
 ], function($api) {
     /* 主要API */
     $api->get('', function () {
         return response()->json([
-            'message' => 'Welcome to SUSTC Faculty Search & Appointment System API.',
+            'message'     => 'Welcome to SUSTC Faculty Search & Appointment System API.',
             'status_code' => 200
         ])->setStatusCode(200);
     })->name('api.home.show');
