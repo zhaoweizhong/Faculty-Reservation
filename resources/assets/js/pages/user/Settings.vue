@@ -57,7 +57,7 @@
                                     label='专业'
                                     :colon='false'
                                 >
-                                    <a-input placeholder='专业' :value='currUser.department' disabled/>
+                                    <a-input placeholder='专业' defaultValue='{{currUser.major}}'/>
                                 </a-form-item>
                                 <a-form-item
                                     :labelCol="{ span: 4 }"
@@ -155,10 +155,8 @@ export default {
   data() {
     return {
       current: "1",
-      fields: {
-        major: {
-          value: this.$store.state.account.user.major
-        }
+      major: {
+        value: this.$store.state.account.user.major
       }
     };
   },
