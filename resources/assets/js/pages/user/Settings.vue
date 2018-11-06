@@ -57,7 +57,7 @@
                                     label='专业'
                                     :colon='false'
                                 >
-                                    <a-input placeholder='专业' defaultValue='{{currUser.major}}'/>
+                                    <a-input placeholder='专业' :value='currUser.major' disabled/>
                                 </a-form-item>
                                 <a-form-item
                                     :labelCol="{ span: 4 }"
