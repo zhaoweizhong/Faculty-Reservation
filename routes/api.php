@@ -26,7 +26,7 @@ $api->version('v1', [
         ])->setStatusCode(200);
     })->name('api.home.show');
     //用户注册
-    $api->post('users', 'UsersController@store')
+    $api->post('users', 'UserController@store')
         ->name('api.users.store');
     //用户登录
     $api->post('authorizations', 'AuthorizationsController@store')
@@ -40,10 +40,10 @@ $api->version('v1', [
     //需要登录验证
     $api->group(['middleware' => 'api.auth'], function($api) {
         //获取当前登录用户信息
-        $api->get('user', 'UsersController@me')
+        $api->get('user', 'UserController@me')
             ->name('api.user.show');
         //编辑当前登录用户信息
-        $api->patch('user', 'UsersController@update')
+        $api->patch('user', 'UserController@update')
             ->name('api.user.update');
         //上传图片
         $api->post('images', 'ImagesController@store')

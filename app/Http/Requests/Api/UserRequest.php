@@ -16,7 +16,7 @@ class UserRequest extends FormRequest
         switch($this->method()) {
             case 'POST':
                 return [
-                    'sid'      => 'required|numeric|regex: /^[0-9]{8}$/|unique: users',
+                    'sid'      => 'required|numeric|regex: /^[0-9]{8}$/|unique:users',
                     'password' => 'required|string|min   : 6',
                     'name'     => 'required|string|max   : 255',
                     'email'    => 'required|email',
