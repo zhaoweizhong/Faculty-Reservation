@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Transformers\UserTransformer;
 use App\Http\Requests\Api\UserRequest;
 
-class UsersController extends Controller
+class UserController extends Controller
 {
     public function store(UserRequest $request)
     {
