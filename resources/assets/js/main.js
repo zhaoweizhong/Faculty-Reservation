@@ -44,9 +44,7 @@ axios.interceptors.response.use(
             axios.defaults.headers.common["Authorization"] =
                 "Bearer " + getCookie("token");
             return axios.put("/api/authorizations/current").then(res => {
-                //console.log('Data: ' + JSON.stringify(data))
                 store.commit("account/refreshToken", res.data.access_token);
-                // retry request
                 originalRequest.headers.Authorization =
                     "Bearer " + res.data.access_token;
                 return axios(originalRequest);
