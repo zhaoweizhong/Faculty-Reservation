@@ -29,7 +29,7 @@ class UserRequest extends FormRequest
                     'name'              => 'string|max:255',
                     'email'             => 'email',
                     'avatar_url'        => 'url',
-                    'intro'             => 'string|max:255',
+                    'intro'             => 'string|max:300',
                     'department'        => 'string|max:80',
                     'office'            => 'string|max:80',
                     'fields'            => 'string|max:255',

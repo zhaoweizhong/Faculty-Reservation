@@ -65,7 +65,8 @@
 			<detail-list-item term="兴趣方向">{{ currUser.interested_fields }}</detail-list-item>
 		</detail-list>
 		<a-divider style="margin-bottom: 32px" />
-		<div class="title">个人介绍</div>
+		<div class="intro-title">个人介绍</div>
+		<div class="intro-content">{{ currUser.intro }}</div>
 	</a-card>
 </page-layout>
 </template>
@@ -171,7 +172,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.title {
+.intro-title {
 	color: rgba(0, 0, 0, 0.85);
 	font-size: 16px;
 	font-weight: 500;
@@ -182,6 +183,7 @@ export default {
 	position: relative;
 	min-height: 140px;
 }
+
 
 .avatar {
 	float: left;

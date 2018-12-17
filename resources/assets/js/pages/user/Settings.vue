@@ -13,10 +13,7 @@
 						<a-icon type="profile"/>个人资料
 					</a-menu-item>
 					<a-menu-item key="2">
-						<a-icon type="lock"/>安全设置
-					</a-menu-item>
-					<a-menu-item key="3">
-						<a-icon type="setting"/>其他设置
+						<a-icon type="lock"/>修改密码
 					</a-menu-item>
 				</a-menu>
 			</div>
@@ -30,91 +27,91 @@
 					@submit="profileSubmit"
 					:autoFormCreate="(form)=>{this.form = form, dataInitilize()}"
 					>
-					<div class="ant-row">
-						<div class="left ant-col-8">
-							<a-form-item
-							:labelCol="{ span: 4 }"
-							:wrapperCol="{ span: 24 }"
-							label="姓名"
-							:colon="false"
-							fieldDecoratorId="name"
-							:fieldDecoratorOptions="{rules: [{ required: true, message: '请输入姓名' }]}"
-							>
-								<a-input placeholder="姓名" disabled/>
-							</a-form-item>
-							<a-form-item
-							:labelCol="{ span: 4 }"
-							:wrapperCol="{ span: 24 }"
-							label="邮箱"
-							:colon="false"
-							fieldDecoratorId="email"
-							:fieldDecoratorOptions="{rules: [{ required: true, message: '请输入邮箱' }]}"
-							>
-								<a-input placeholder="邮箱" disabled/>
-							</a-form-item>
-							<a-form-item
-							:labelCol="{ span: 4 }"
-							:wrapperCol="{ span: 24 }"
-							label="院系"
-							:colon="false"
-							fieldDecoratorId="department"
-							:fieldDecoratorOptions="{rules: [{ required: true, message: '请输入院系' }]}"
-							>
-								<a-input placeholder="院系" disabled/>
-							</a-form-item>
-							<a-form-item
-							:labelCol="{ span: 4 }"
-							:wrapperCol="{ span: 24 }"
-							label="专业"
-							:colon="false"
-							fieldDecoratorId="major"
-							:fieldDecoratorOptions="{rules: [{ required: true, message: '请输入专业' }]}"
-							>
-								<a-input placeholder="专业" disabled/>
-							</a-form-item>
-							<a-form-item
-							:labelCol="{ span: 4 }"
-							:wrapperCol="{ span: 24 }"
-							label="GPA"
-							:colon="false"
-							fieldDecoratorId="gpa"
-							:fieldDecoratorOptions="{rules: [{ required: true, message: '请输入GPA' }]}"
-							>
-								<a-input placeholder="GPA" disabled/>
-							</a-form-item>
-							<a-form-item
-							:labelCol="{ span: 8 }"
-							:wrapperCol="{ span: 24 }"
-							label="兴趣方向"
-							:colon="false"
-							fieldDecoratorId="interested_fields"
-							:fieldDecoratorOptions="{rules: [{ required: true, message: '请输入兴趣方向' }]}"
-							>
-								<a-textarea
-								placeholder="兴趣方向..."
-								id="interested_fields"
-								:autosize="{ minRows: 2 }"
-								/>
+						<div class="ant-row">
+							<div class="left ant-col-8">
+								<a-form-item
+								:labelCol="{ span: 4 }"
+								:wrapperCol="{ span: 24 }"
+								label="姓名"
+								:colon="false"
+								fieldDecoratorId="name"
+								:fieldDecoratorOptions="{rules: [{ required: true, message: '请输入姓名' }]}"
+								>
+									<a-input placeholder="姓名" disabled/>
+								</a-form-item>
+								<a-form-item
+								:labelCol="{ span: 4 }"
+								:wrapperCol="{ span: 24 }"
+								label="邮箱"
+								:colon="false"
+								fieldDecoratorId="email"
+								:fieldDecoratorOptions="{rules: [{ required: true, message: '请输入邮箱' }]}"
+								>
+									<a-input placeholder="邮箱" disabled/>
+								</a-form-item>
+								<a-form-item
+								:labelCol="{ span: 4 }"
+								:wrapperCol="{ span: 24 }"
+								label="院系"
+								:colon="false"
+								fieldDecoratorId="department"
+								:fieldDecoratorOptions="{rules: [{ required: true, message: '请输入院系' }]}"
+								>
+									<a-input placeholder="院系" disabled/>
+								</a-form-item>
+								<a-form-item
+								:labelCol="{ span: 4 }"
+								:wrapperCol="{ span: 24 }"
+								label="专业"
+								:colon="false"
+								fieldDecoratorId="major"
+								:fieldDecoratorOptions="{rules: [{ required: true, message: '请输入专业' }]}"
+								>
+									<a-input placeholder="专业" disabled/>
+								</a-form-item>
+								<a-form-item
+								:labelCol="{ span: 4 }"
+								:wrapperCol="{ span: 24 }"
+								label="GPA"
+								:colon="false"
+								fieldDecoratorId="gpa"
+								:fieldDecoratorOptions="{rules: [{ required: true, message: '请输入GPA' }]}"
+								>
+									<a-input placeholder="GPA" disabled/>
+								</a-form-item>
+								<a-form-item
+								:labelCol="{ span: 8 }"
+								:wrapperCol="{ span: 24 }"
+								label="兴趣方向"
+								:colon="false"
+								fieldDecoratorId="interested_fields"
+								:fieldDecoratorOptions="{rules: [{ required: true, message: '请输入兴趣方向' }]}"
+								>
+									<a-textarea
+									placeholder="兴趣方向..."
+									id="interested_fields"
+									:autosize="{ minRows: 2 }"
+									/>
+								</a-form-item>
+							</div>
+							<div class="right ant-col-16">
+								<a-form-item
+								:labelCol="{ span: 3 }"
+								:wrapperCol="{ span: 24 }"
+								label="个人介绍"
+								:colon="false"
+								fieldDecoratorId="intro"
+								:fieldDecoratorOptions="{rules: [{ required: true, message: '请输入个人介绍' }]}"
+								>
+									<a-textarea placeholder="个人介绍..." id="intro" :autosize="{ minRows: 21.5 }"/>
+								</a-form-item>
+							</div>
+						</div>
+						<div class="ant-row">
+							<a-form-item>
+								<a-button type="primary" htmlType="submit" size="large">提交</a-button>
 							</a-form-item>
 						</div>
-						<div class="right ant-col-16">
-							<a-form-item
-							:labelCol="{ span: 3 }"
-							:wrapperCol="{ span: 24 }"
-							label="个人介绍"
-							:colon="false"
-							fieldDecoratorId="intro"
-							:fieldDecoratorOptions="{rules: [{ required: true, message: '请输入个人介绍' }]}"
-							>
-								<a-textarea placeholder="个人介绍..." id="intro" :autosize="{ minRows: 21.5 }"/>
-							</a-form-item>
-						</div>
-					</div>
-					<div class="ant-row">
-						<a-form-item>
-							<a-button type="primary" htmlType="submit" size="large">提交</a-button>
-						</a-form-item>
-					</div>
 					</a-form>
 				</div>
 			</div>
@@ -122,10 +119,50 @@
 				<div class="title">
 					<span>修改密码</span>
 				</div>
-			</div>
-			<div v-else class="col-right">
-				<div class="title">
-					<span>其他设置</span>
+				<div class="profile-content">
+					<a-form
+					@submit="passwordSubmit"
+					>
+						<div class="ant-row">
+							<div class="left ant-col-8">
+								<a-form-item
+								:labelCol="{ span: 8 }"
+								:wrapperCol="{ span: 24 }"
+								label="原密码"
+								:colon="false"
+								fieldDecoratorId="old_password"
+								:fieldDecoratorOptions="{rules: [{ required: true, message: '请输入原密码' }]}"
+								>
+									<a-input type="password" id="old_password" placeholder="原密码"/>
+								</a-form-item>
+								<a-form-item
+								:labelCol="{ span: 8 }"
+								:wrapperCol="{ span: 24 }"
+								label="新密码"
+								:colon="false"
+								fieldDecoratorId="new_password"
+								:fieldDecoratorOptions="{rules: [{ required: true, message: '请输入新密码' }]}"
+								>
+									<a-input type="password" id="new_password" placeholder="新密码"/>
+								</a-form-item>
+								<a-form-item
+								:labelCol="{ span: 8 }"
+								:wrapperCol="{ span: 24 }"
+								label="确认密码"
+								:colon="false"
+								fieldDecoratorId="confirm_password"
+								:fieldDecoratorOptions="{rules: [{ required: true, message: '请输入确认密码' }]}"
+								>
+									<a-input type="password" id="confirm_password" placeholder="确认密码"/>
+								</a-form-item>
+							</div>
+						</div>
+						<div class="ant-row">
+							<a-form-item>
+								<a-button type="primary" htmlType="submit" size="large">提交</a-button>
+							</a-form-item>
+						</div>
+					</a-form>
 				</div>
 			</div>
 		</div>
@@ -214,10 +251,22 @@ export default {
 							}
 						})
 						.catch(error => {
-							console.log(JSON.stringify(error));
+							if (error.response.status == 422) {
+								message.error("个人介绍不能超过300字");
+							}else{
+								console.log(JSON.stringify(error));
+							}
 						});
 				}
 			});
+		},
+		passwordSubmit(e) {
+			e.preventDefault();
+			this.form.validateFields((err, values) => {
+				if (!err) {
+					message.success("密码修改成功");
+				}
+			})	
 		}
 	}
 };

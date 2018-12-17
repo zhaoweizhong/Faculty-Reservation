@@ -12,12 +12,6 @@
       </div>
       <div :class="['global-header-right', theme]">
           <header-search class="header-item" />
-          <a-tooltip class="header-item" title="帮助文档" placement="bottom" >
-            <a>
-              <a-icon type="question-circle-o" />
-            </a>
-          </a-tooltip>
-          <header-notice class="header-item"/>
           <header-avatar class="header-item"/>
       </div>
     </div>
@@ -29,8 +23,6 @@ import ALayout from 'ant-design-vue/es/layout'
 import AIcon from 'ant-design-vue/es/icon/icon'
 import AInputSearch from 'ant-design-vue/es/input/Search'
 import HeaderSearch from './HeaderSearch'
-import HeaderNotice from './HeaderNotice'
-import ATooltip from 'ant-design-vue/es/tooltip/Tooltip'
 import HeaderAvatar from './HeaderlAvatar'
 import ADivider from 'ant-design-vue/es/divider/index'
 import IMenu from '../components/menu/menu'
@@ -43,8 +35,6 @@ export default {
     IMenu,
     ADivider,
     HeaderAvatar,
-    ATooltip,
-    HeaderNotice,
     HeaderSearch,
     AInputSearch,
     AIcon,
