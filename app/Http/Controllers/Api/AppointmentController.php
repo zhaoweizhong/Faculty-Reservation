@@ -22,7 +22,9 @@ class AppointmentController extends Controller
             return $this->response->item($appointment, new AppointmentTransformer());
         }
         
-        //else
+        //if not available
+
+
     }
 
     public function is_available(){
@@ -49,6 +51,7 @@ class AppointmentController extends Controller
         
 
         $faculty -> save();
+        
     }
 
     public function update(AppointmentRequest $request){
@@ -61,9 +64,4 @@ class AppointmentController extends Controller
         return $this->response->item($appointment, new AppointmentTransformer());
     }
 
-
-    public function me()
-    {
-        return $this->response->item($this->user(), new UserTransformer());
-    }
 }
