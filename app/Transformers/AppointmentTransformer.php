@@ -14,7 +14,8 @@ class AppointmentTransformer extends TransformerAbstract
             'id' => $appointment->id,
             'student_id' => $appointment ->student_id,
             'faculty_id' => $appointment->faculty_id,
-            'reserved_time' => $appointment->reserved_time,
+            'start_time' => $appointment->start_time,
+            'end_time'   => $appointment->end_time,
             'content' => $appointment->content,
         ];
 
