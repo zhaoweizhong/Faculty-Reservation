@@ -12,10 +12,11 @@ class AppointmentTransformer extends TransformerAbstract
         
         return [
             'id' => $appointment->id,
-            'sid' => $appointment->faculty_id,
+            'student_id' => $appointment ->student_id,
+            'faculty_id' => $appointment->faculty_id,
             'reserved_time' => $appointment->reserved_time,
             'content' => $appointment->content,
         ];
-        
+
     }
 }
