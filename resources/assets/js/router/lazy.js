@@ -5,20 +5,17 @@ import RouteView from "../layouts/RouteView";
 import MenuView from "../layouts/MenuView";
 import Login from "../pages/login/Login";
 
-import Dashboard from "../pages/Dashboard";
 import Profile from "../pages/user/Profile";
 import Settings from "../pages/user/Settings";
 
+import Search from "../pages/search/Search"
 import BasicForm from "../pages/form/BasicForm";
 import StepForm from "../pages/form/stepForm/StepForm";
 import AdvancedForm from "../pages/form/advancedForm/AdvancedForm";
 import QueryList from "../pages/list/QueryList";
 import StandardList from "../pages/list/StandardList";
 import CardList from "../pages/list/CardList";
-import SearchLayout from "../pages/list/search/SearchLayout";
-import ArticleList from "../pages/list/search/ArticleList";
-import ApplicationList from "../pages/list/search/ApplicationList";
-import ProjectList from "../pages/list/search/ProjectList";
+import SearchLayout from "../pages/search/SearchLayout";
 import BasicDetail from "../pages/detail/BasicDetail";
 import AdvancedDetail from "../pages/detail/AdvancedDetail";
 import SuccessResult from "../pages/result/Success";
@@ -50,17 +47,26 @@ var router = new Router({
             path: "/",
             name: "首页",
             component: MenuView,
-            //redirect: '/login',
             icon: "none",
             invisible: true,
             children: [
                 {
                     path: "/",
-                    name: "仪表盘",
+                    name: "搜索",
                     meta: {
                         requiresAuth: true
                     },
-                    component: Dashboard,
+                    component: Search,
+                    icon: "dashboard"
+                },
+                {
+                    path: "/search",
+                    name: "搜索结果",
+                    meta: {
+                        requiresAuth: true
+                    },
+                    component: SearchLayout,
+                    invisible: true,
                     icon: "dashboard"
                 },
                 {
@@ -132,32 +138,6 @@ var router = new Router({
                             name: "卡片列表",
                             component: CardList,
                             icon: "none"
-                        },
-                        {
-                            path: "/list/search",
-                            name: "搜索列表",
-                            component: SearchLayout,
-                            icon: "none",
-                            children: [
-                                {
-                                    path: "/list/search/article",
-                                    name: "文章",
-                                    component: ArticleList,
-                                    icon: "none"
-                                },
-                                {
-                                    path: "/list/search/application",
-                                    name: "应用",
-                                    component: ApplicationList,
-                                    icon: "none"
-                                },
-                                {
-                                    path: "/list/search/project",
-                                    name: "项目",
-                                    component: ProjectList,
-                                    icon: "none"
-                                }
-                            ]
                         }
                     ]
                 },
