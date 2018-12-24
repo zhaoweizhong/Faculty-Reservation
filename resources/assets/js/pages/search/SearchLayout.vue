@@ -7,7 +7,7 @@
       </div>
     </div>
     <div class="search-content">
-      <application-list></application-list>
+      <search-list></search-list>
     </div>
   </div>
 </template>
@@ -18,14 +18,14 @@ import AInputGroup from 'ant-design-vue/es/input/Group'
 import AButton from 'ant-design-vue/es/button/button'
 import AInputSearch from 'ant-design-vue/es/input/Search'
 import ATabs from 'ant-design-vue/es/tabs'
-import ApplicationList from "./ApplicationList"
+import SearchList from "./SearchList"
 import PageView from "../../layouts/PageView" 
 
 const ATabPane = ATabs.TabPane
 
 export default {
   name: 'SearchLayout',
-  components: {PageView, ATabPane, ATabs, AInputSearch, AButton, AInputGroup, AInput, ApplicationList}
+  components: {PageView, ATabPane, ATabs, AInputSearch, AButton, AInputGroup, AInput, SearchList}
 }
 </script>
 

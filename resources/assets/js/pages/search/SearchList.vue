@@ -57,7 +57,7 @@ import AMenu from 'ant-design-vue/es/menu/index'
 const AMenuItem = AMenu.Item
 
 export default {
-  name: 'ApplicationList',
+  name: 'SearchList',
   components: {AMenuItem, AMenu, ADropdown, AIcon, ATooltip, AAvatar, ACardMeta, AListItem, AList, SearchForm, ACard}
 }
 </script>

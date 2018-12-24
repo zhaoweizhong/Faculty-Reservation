@@ -105,8 +105,6 @@ export default {
         max-width: 1400px;
         margin: auto;
       }
-      &.side{
-      }
       .logo {
         height: 64px;
         line-height: 58px;
