@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Appointment extends Model
 {
-    protected $fillable = ['student_id', 'faculty_id', 'reserved_time', 'content'];
+    protected $fillable = ['student_id', 'faculty_id', 'start_time', 'end_time', 'content'];
 
     /**
     * 获得对应用户
@@ -20,4 +20,5 @@ class Appointment extends Model
    public function faculty() {
        return $this->belongsTo('App\Models\User', 'faculty_id');
    }
+   
 }
