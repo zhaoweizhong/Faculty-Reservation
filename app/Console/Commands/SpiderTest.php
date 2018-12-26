@@ -2,11 +2,7 @@
 
 namespace App\Console\Commands;
 
-use Goutte\Client as GoutteClient;
-use GuzzleHttp\Client as GuzzleClient;
-use GuzzleHttp\Pool;
 use Illuminate\Console\Command;
-use Symfony\Component\DomCrawler\Crawler;
 use App\Http\Middleware\Spider;
 
 class SpiderTest extends Command
@@ -63,7 +59,7 @@ class SpiderTest extends Command
 //            echo 'Spider Caught exception: ', $e->getMessage() . PHP_EOL;
 //        }
         $asdf = new Spider();
-        $link = $asdf->linkReader('李鹏飞');
-        $asdf->getInfo($link);
+        $link = $asdf->linkReader('翟继先');
+        $data = $asdf->getInfo($link);
     }
 }

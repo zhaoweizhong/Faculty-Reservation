@@ -4,6 +4,8 @@ namespace App\Http\Middleware;
 
 use App\Models\User;
 use GuzzleHttp\Client as GuzzleClient;
+use GuzzleHttp\HandlerStack;
+use GuzzleRetry\GuzzleRetryMiddleware;
 use Symfony\Component\DomCrawler\Crawler;
 use Illuminate\Http\Request;
 use PHPExcel_IOFactory;
@@ -47,7 +49,7 @@ class Spider
     public function linkReader(string $name)
     {
         $file = 'resources/documents/faculty_info.xlsx';
-//        set_include_path(get_include_path() . PATH_SEPARATOR . './Classes/');
+        //        set_include_path(get_include_path() . PATH_SEPARATOR . './Classes/');
         include 'Classes/PHPExcel/IOFactory.php';
         $sheetData = '';
         $linkOfName = null;
@@ -58,7 +60,6 @@ class Spider
             for ($row = 2; $row <= $highestRow; $row++) {
                 if ($sheetData->getCellByColumnAndRow(1, $row) == $name) {
                     $linkOfName = $sheetData->getCellByColumnAndRow(2, $row);
-                    echo $sheetData->getCellByColumnAndRow(2, $row);
                     break;
                 }
             }
@@ -70,23 +71,41 @@ class Spider
 
     public function getInfo(string $url)
     {
+        $option = false;
+        if (strcmp(substr($url, 30, 7), 'profile') == 0) {
+            $option = true;
+        }
+        $stack = HandlerStack::create();
+        $stack->push(GuzzleRetryMiddleware::factory());
         $headers = [
-            'user-agent' => 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36',
+            'User-Agent' => 'testing/1.0',
+            //            'user-agent' => 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36',
         ];
-        $guzzleClent = new GuzzleClient([
+        $requestOption = [
             'timeout' => 20,
-            'headers' => $headers
-        ]);
+            'headers' => $headers,
+            'handler' => $stack,
+            'retry_on_status' => [429],
+            'max_retry_attempts' => 5
+        ];
+        $guzzleClent = new GuzzleClient($requestOption);
         $response = $guzzleClent->request('GET', $url)->getBody()->getContents();
         $data = [];
         $crawler = new Crawler();
         $crawler->addHtmlContent($response);
         try {
-            $crawler->filterXPath('//div[contains(@class, "nova-e-text nova-e-text--size-m nova-e-text--family-sans-serif nova-e-text--spacing-none nova-e-text--color-grey-900 scientific-contribution__disciplines-science")]')->each(function (Crawler $node, $i) use (&$data) {
-                echo $node->text();
-            });
+            if ($option) {
+                $crawler->filterXPath('//a[contains(@class, "nova-e-badge nova-e-badge--color-grey nova-e-badge--display-block nova-e-badge--luminosity-medium nova-e-badge--size-l nova-e-badge--theme-ghost nova-e-badge--radius-full")]')->each(function (Crawler $node, $i) use (&$data) {
+                    $data[] = $node->text();
+                });
+            } else {
+                $crawler->filterXPath('//div[contains(@class, "nova-e-text nova-e-text--size-m nova-e-text--family-sans-serif nova-e-text--spacing-none nova-e-text--color-grey-900 scientific-contribution__disciplines-science")]')->each(function (Crawler $node, $i) use (&$data) {
+                    $data[] = $node->text();
+                });
+            }
         } catch (\Exception $e) {
             echo 'Spider Caught exception: ', $e->getMessage() . PHP_EOL;
         }
+        return $data;
     }
 }
