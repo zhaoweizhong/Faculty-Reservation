@@ -63,7 +63,7 @@ class SpiderTest extends Command
 //            echo 'Spider Caught exception: ', $e->getMessage() . PHP_EOL;
 //        }
         $asdf = new Spider();
-        $link = $asdf->linkReader('翟继先');
+        $link = $asdf->linkReader('李鹏飞');
         $asdf->getInfo($link);
     }
 }
