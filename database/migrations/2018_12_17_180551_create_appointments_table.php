@@ -13,14 +13,15 @@ class CreateAppointmentsTable extends Migration
      */
     public function up()
     {
-        Schema::create('appointment', function (Blueprint $table) {
-            $table->increments('id');
+        Schema::create('appointments', function (Blueprint $table) {
+            $table->increments('id')->unique();
             $table->integer('student_id')->index();
             $table->integer('faculty_id')->index();
-            $table->dateTime('reserved_time');
+            $table->dateTime('start_time');
+            $table->dateTime('end_time');
             $table->text('content');
             $table->string('status');
-            $table->text('info');
+            $table->text('info')->nullable();
             $table->timestamps();
         });
     }

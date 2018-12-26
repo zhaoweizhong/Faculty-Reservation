@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use Dingo\Api\Routing\Helpers;
+use App\Models\User;
 use App\Models\Appointment;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
@@ -12,7 +13,7 @@ use App\Transformers\AppointmentTransformer;
 class AppointmentsController extends Controller
 {
     public function store(AppointmentRequest $request) {
-        if (isFacultyAvailable($request->faculty_id, $request->start_time, $request->end_time)) {
+        if ($this->isFacultyAvailable($request->faculty_id, $request->start_time, $request->end_time)) {
             $appointment = Appointment::create([
                 'student_id' => $request->student_id,
                 'faculty_id' => $request->faculty_id,
@@ -31,9 +32,9 @@ class AppointmentsController extends Controller
         return $this->response->item($appointment, new AppointmentTransformer());
     }
 
-    public static function isFacultyAvailable($faculty_id, $start_time_str, $end_time_str) {
-        $faculty = App\Models\User::find($faculty_id);       
-        $appointments = $faculty->appointments()->all();
+    public function isFacultyAvailable($faculty_id, $start_time_str, $end_time_str) {
+        $faculty = \App\Models\User::where('sid', $faculty_id)->first();
+        $appointments = $faculty->appointments();
         $start_time = Carbon::parse($start_time_str);
         $end_time = Carbon::parse($end_time_str);
 
@@ -47,6 +48,7 @@ class AppointmentsController extends Controller
                 }
             }
         }
+        return true;
     }
 
     public function update(AppointmentRequest $request, Appointment $appointment) {
@@ -70,7 +72,7 @@ class AppointmentsController extends Controller
     }
 
     public function userIndex(User $user) {
-        $appointments = $user->appointments()->recent()->paginate(20);
+        $appointments = $user->appointments()->orderBy('created_at','desc')->paginate(20);
 
         return $this->response->paginator($appointments, new AppointmentTransformer());
     }
@@ -82,8 +84,8 @@ class AppointmentsController extends Controller
         } elseif ($request->status == "refuse") {
             $appointment->refuse();
             $appointment->setInfo($request->info);
-        } elseif ($request->status == "accept") {
-            $appointment->accept();
+        } elseif ($request->status == "confirm") {
+            $appointment->confirm();
         } else {
             return $this->response->errorBadRequest('操作错误');
         }

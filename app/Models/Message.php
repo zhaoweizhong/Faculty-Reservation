@@ -24,11 +24,17 @@ class Message extends Model
 
     public function addReply(Message $reply) {
         $replies = json_decode($this->reply_id);
-        array_push($replies, $reply->id);
+        if (is_null($replies)) {
+            $replies = array($reply->id);
+        } else {
+            array_push($replies, $reply->id);
+        }
         $this->reply_id = json_encode($replies);
+        $this->save();
     }
 
     public function setRead() {
         $this->read = true;
+        $this->save();
     }
 }

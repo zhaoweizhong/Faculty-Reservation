@@ -8,7 +8,7 @@ use App\Http\Requests\Api\MessageRequest;
 use App\Transformers\MessageTransformer;
 use App\Repositories\MessageRepository;
 
-class MessageController extends Controllers{
+class MessagesController extends Controller {
     protected $message;
 
     public function __construct(MessageRepository $message)
@@ -25,7 +25,7 @@ class MessageController extends Controllers{
         if ($request->has('reply_src_id')) {
             $message = Message::create([
                 'sender_id'    => $this->auth->user()->id,
-                'receiver_id'  => $request->receiver_id,
+                'receiver_id'  => $request->receiver_id,//这里是真实的ID
                 'content'      => $request->content,
                 'reply_src_id' => $request->reply_src_id,
             ]);
@@ -44,7 +44,7 @@ class MessageController extends Controllers{
     public function sentIndex() {
         $user = $this->auth->user();
 
-        $messages = $user->messages_to_other()->where('reply_src_id', null)->recent()->paginate(20);
+        $messages = $user->messages_to_other()->where('reply_src_id', null)->orderBy('created_at','desc')->paginate(20);
 
         return $this->response->paginator($messages, new MessageTransformer());
     }
@@ -52,7 +52,7 @@ class MessageController extends Controllers{
     public function receiveIndex() {
         $user = $this->auth->user();
 
-        $messages = $user->messages_to_me()->where('reply_src_id', null)->recent()->paginate(20);
+        $messages = $user->messages_to_me()->where('reply_src_id', null)->orderBy('created_at','desc')->paginate(20);
 
         return $this->response->paginator($messages, new MessageTransformer());
     }

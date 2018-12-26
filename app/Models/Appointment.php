@@ -14,26 +14,30 @@ class Appointment extends Model
     * @return User
     */
     public function student() {
-        return $this->belongsTo('App\Models\User', 'student_id');
+        return $this->belongsTo('App\Models\User', 'student_id', 'sid');
     }
 
     public function faculty() {
-        return $this->belongsTo('App\Models\User', 'faculty_id');
+        return $this->belongsTo('App\Models\User', 'faculty_id', 'sid');
     }
 
     public function cancel() {
         $this->attributes['status'] = 'canceled';
+        $this->save();
     }
 
     public function refuse() {
         $this->attributes['status'] = 'refused';
+        $this->save();
     }
 
     public function setInfo($info) {
         $this->attributes['info'] = $info;
+        $this->save();
     }
 
-    public function accept() {
-        $this->attributes['status'] = 'accepted';
+    public function confirm() {
+        $this->attributes['status'] = 'confirmed';
+        $this->save();
     }
 }
