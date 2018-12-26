@@ -14,8 +14,8 @@ class MessageRequest extends FormRequest
     public function rules()
     {
         return [
-            'receiver_id'=>'required|numeric|regex: /^[0-9]{8}$/|unique:users',
-            'content'=>'required',
+            'receiver_id'=>'required|numeric',
+            'content'=>'required|string|max:1024',
         ];
     }
 }    
