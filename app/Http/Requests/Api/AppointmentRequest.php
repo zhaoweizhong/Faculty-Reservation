@@ -16,11 +16,11 @@ class AppointmentRequest extends FormRequest
         switch($this->method()){
             case 'POST':
                 return [
-                    'student_id' => 'required|numeric|regex:/^[0-9]{8}$/|unique:users',
-                    'faculty_id' => 'required|numeric|regex:/^[0-9]{8}$/|unique:users',
-                    'start_time' => 'string|max:255',
-                    'end_time'   => 'string|max:255',
-                    'content'    => 'string|max:255',
+                    'student_id' => 'required|numeric',
+                    'faculty_id' => 'required|numeric',
+                    'start_time' => 'required|string|max:255',
+                    'end_time'   => 'required|string|max:255',
+                    'content'    => 'required|string|max:255',
                 ];
                 break;
             case 'PATCH':

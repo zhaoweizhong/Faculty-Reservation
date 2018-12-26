@@ -47,9 +47,9 @@ class User extends Authenticatable implements JWTSubject
     public function appointments()
     {
         if ($this->type == 'student') {
-            return $this->hasMany('App\Models\Appointment', 'student_id');
+            return $this->hasMany('App\Models\Appointment', 'student_id', 'sid');
         } else if ($this->type == 'faculty') {
-            return $this->hasMany('App\Models\Appointment', 'faculty_id');
+            return $this->hasMany('App\Models\Appointment', 'faculty_id', 'sid');
         }
         return null;
     }

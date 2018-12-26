@@ -57,7 +57,7 @@ $api->version('v1', [
         $api->post('appointments', 'AppointmentsController@store')
             ->name('api.appointments.store');
         //查看预约
-        $api->get('appointment/{id}', 'AppointmentsController@show')
+        $api->get('appointment/{appointment}', 'AppointmentsController@show')
             ->name('api.appointment.show');
         //查看用户的预约
         $api->get('user/{user}/appointments', 'AppointmentsController@userIndex')
@@ -70,19 +70,19 @@ $api->version('v1', [
             ->name('api.appointments.status');
         /* 消息 */
         //创建消息
-        $api->post('messages', 'MessageController@store')
+        $api->post('messages', 'MessagesController@store')
             ->name('api.messages.store');
         //查看消息
-        $api->get('message/{id}', 'MessageController@show')
+        $api->get('message/{message}', 'MessagesController@show')
             ->name('api.message.show');
         //标记消息为已读
-        $api->get('message/{id}/read', 'MessageController@setRead')
+        $api->get('message/{message}/read', 'MessagesController@setRead')
             ->name('api.messages.setRead');
         //发件箱
-        $api->get('messages/sent', 'MessageController@sentIndex')
+        $api->get('messages/sent', 'MessagesController@sentIndex')
             ->name('api.messages.sentIndex');
         //收件箱
-        $api->get('messages/inbox', 'MessageController@receiveIndex')
+        $api->get('messages/inbox', 'MessagesController@receiveIndex')
             ->name('api.messages.receiveIndex');
 
     });
