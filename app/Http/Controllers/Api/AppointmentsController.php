@@ -6,6 +6,8 @@ use Dingo\Api\Routing\Helpers;
 use App\Models\Appointment;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use App\Http\Requests\Api\AppointmentRequest;
+use App\Transformers\AppointmentTransformer;
 
 class AppointmentsController extends Controller
 {
@@ -23,6 +25,10 @@ class AppointmentsController extends Controller
         } else {
             return $this->response->errorBadRequest('导师在所选时间内不空闲');
         }
+    }
+
+    public function show(Appointment $appointment) {
+        return $this->response->item($appointment, new AppointmentTransformer());
     }
 
     public static function isFacultyAvailable($faculty_id, $start_time_str, $end_time_str) {
@@ -71,16 +77,16 @@ class AppointmentsController extends Controller
 
     public function setStatus(Request $request, Appointment $appointment) {
         if ($request->status == "cancel") {
-            $appointment->cancel($appointment);
-            $appointment->setInfo($appointment, $request->info);
+            $appointment->cancel();
+            $appointment->setInfo($request->info);
         } elseif ($request->status == "refuse") {
-            $appointment->refuse($appointment);
-            $appointment->setInfo($appointment, $request->info);
+            $appointment->refuse();
+            $appointment->setInfo($request->info);
         } elseif ($request->status == "accept") {
-            $appointment->accept($appointment);
+            $appointment->accept();
         } else {
             return $this->response->errorBadRequest('操作错误');
         }
-        return $this->response->noContent()->setStatusCode(200);;
+        return $this->response->noContent()->setStatusCode(200);
     }
 }

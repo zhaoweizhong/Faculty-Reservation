@@ -21,19 +21,19 @@ class Appointment extends Model
         return $this->belongsTo('App\Models\User', 'faculty_id');
     }
 
-    public function cancel(Appointment $appointment) {
+    public function cancel() {
         $this->attributes['status'] = 'canceled';
     }
 
-    public function refuse(Appointment $appointment) {
+    public function refuse() {
         $this->attributes['status'] = 'refused';
     }
 
-    public function setInfo(Appointment $appointment, $info) {
+    public function setInfo($info) {
         $this->attributes['info'] = $info;
     }
 
-    public function accept(Appointment $appointment) {
+    public function accept() {
         $this->attributes['status'] = 'accepted';
     }
 }
