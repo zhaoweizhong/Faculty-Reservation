@@ -16,6 +16,6 @@ class MessageRequest extends FormRequest
         return [
             'receiver_id'=>'required|numeric|regex: /^[0-9]{8}$/|unique:users',
             'content'=>'required',
-        ]
+        ];
     }
 }    

@@ -41,12 +41,27 @@ $api->version('v1', [
     $api->group(['middleware' => 'api.auth'], function($api) {
         //获取当前登录用户信息
         $api->get('user', 'UserController@me')
-            ->name('api.user.show');
+            ->name('api.user.me');
         //编辑当前登录用户信息
         $api->patch('user', 'UserController@update')
             ->name('api.user.update');
+        //获取某用户信息
+        $api->get('user/{user}', 'UserController@show')
+            ->name('api.user.show');
         //上传图片
         $api->post('images', 'ImagesController@store')
             ->name('api.images.store');
+        //创建预约
+        $api->post('appointments', 'AppointmentsController@store')
+            ->name('api.appointments.store');
+        //查看用户的预约
+        $api->get('user/{user}/appointments', 'AppointmentsController@userIndex')
+            ->name('api.appointments.userIndex');
+        //修改预约
+        $api->patch('appointment/{appointment}', 'AppointmentsController@update')
+            ->name('api.appointments.update');
+        //修改预约状态
+        $api->post('appointment/{appointment}/status', 'AppointmentsController@setStatus')
+            ->name('api.appointments.status');
     });
 });

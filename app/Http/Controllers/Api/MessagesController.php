@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Models\Message
+use App\Models\Message;
 use Illuminate\Http\Request;
 use Auth;
 
@@ -21,7 +21,7 @@ class MessageController extends Controllers{
             'receiver_id'=>$request->receiver_id,
             'content'=>$request->content,
 
-        ])
+        ]);
 
         return $this->response->item($message,new MessageTransformer())
         ->setStatusCode(201);

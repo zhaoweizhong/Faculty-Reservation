@@ -38,7 +38,6 @@ class UserTransformer extends TransformerAbstract
                 'is_admin'       => $user->is_admin,
                 'office'         => $user->office,
                 'fields'         => $user->fields,
-                'available_time' => $user->available_time,
                 'created_at'     => $user->created_at->toDateTimeString(),
                 'updated_at'     => $user->updated_at->toDateTimeString(),
             ];

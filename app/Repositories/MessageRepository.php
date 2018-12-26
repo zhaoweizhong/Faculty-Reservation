@@ -8,9 +8,8 @@ use App\Models\Message;
 
 class MessageRepository{
 
-    public public function create(array $attributes)
-    {
-        return Message::create($attributes)
+    public function create(array $attributes) {
+        return Message::create($attributes);
     }
 
     public function getAllMessages(){

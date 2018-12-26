@@ -12,11 +12,12 @@ class UserController extends Controller
     public function store(UserRequest $request)
     {
         $user = User::create([
-            'sid'      => $request->sid,
-            'password' => bcrypt($request->password),
-            'name'     => $request->name,
-            'email'    => $request->email,
-            'type'     => $request->type,
+            'sid'        => $request->sid,
+            'password'   => bcrypt($request->password),
+            'name'       => $request->name,
+            'email'      => $request->email,
+            'type'       => $request->type,
+            'avatar_url' => 'https://f.zzwcdn.com/no-avatar.png'
         ]);
 
         return $this->response->item($user, new UserTransformer())
@@ -32,7 +33,7 @@ class UserController extends Controller
     {
         $user = $this->user();
 
-        $attributes = $request->only(['name', 'email', 'avatar_url', 'intro', 'department', 'major', 'office', 'fields', 'available_time', 'gpa', 'interested_fields']);
+        $attributes = $request->only(['name', 'email', 'avatar_url', 'intro', 'department', 'major', 'office', 'fields', 'gpa', 'interested_fields']);
 
         $user->update($attributes);
 
@@ -42,5 +43,10 @@ class UserController extends Controller
     public function me()
     {
         return $this->response->item($this->user(), new UserTransformer());
+    }
+
+    public function show($id) {
+        $user = User::findOrFail($id);
+        return $this->response->item($user, new UserTransformer);
     }
 }

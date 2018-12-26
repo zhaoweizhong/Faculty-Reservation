@@ -34,7 +34,6 @@ class UserRequest extends FormRequest
                     'office'            => 'string|max:80',
                     'fields'            => 'string|max:255',
                     'major'             => 'string|max:80',
-                    'available_time'    => 'string|max:255',
                     'gpa'               => 'regex:/^[0-4]{1}\.[0-9]{2}$/',
                     'interested_fields' => 'string|max:255',
                 ];

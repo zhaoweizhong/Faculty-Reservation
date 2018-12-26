@@ -29,7 +29,6 @@ class CreateUsersTable extends Migration
             //教师
             $table->string('office')->nullable();
             $table->string('fields')->nullable();
-            $table->text('available_time')->nullable();
             //学生
             $table->string('major')->nullable();
             $table->string('gpa')->nullable();

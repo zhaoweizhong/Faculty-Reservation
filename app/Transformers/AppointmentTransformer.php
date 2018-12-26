@@ -9,14 +9,15 @@ class AppointmentTransformer extends TransformerAbstract
 {
     public function transform(Appointment $appointment)
     {
-        
         return [
-            'id' => $appointment->id,
-            'student_id' => $appointment ->student_id,
+            'id'         => $appointment->id,
+            'student_id' => $appointment->student_id,
             'faculty_id' => $appointment->faculty_id,
             'start_time' => $appointment->start_time,
             'end_time'   => $appointment->end_time,
-            'content' => $appointment->content,
+            'content'    => $appointment->content,
+            'status'     => $appointment->status,
+            'info'       => $appointment->info,
         ];
 
     }
