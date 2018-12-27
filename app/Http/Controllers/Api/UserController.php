@@ -5,25 +5,50 @@ namespace App\Http\Controllers\Api;
 use App\Models\User;
 use App\Transformers\UserTransformer;
 use App\Http\Requests\Api\UserRequest;
+use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
     public function store(UserRequest $request)
     {
         $user = User::create([
-            'sid'        => $request->sid,
-            'password'   => bcrypt($request->password),
-            'name'       => $request->name,
-            'email'      => $request->email,
-            'type'       => $request->type,
+            'sid' => $request->sid,
+            'password' => bcrypt($request->password),
+            'name' => $request->name,
+            'email' => $request->email,
+            'type' => $request->type,
             'avatar_url' => 'https://f.zzwcdn.com/no-avatar.png'
         ]);
 
         return $this->response->item($user, new UserTransformer())
             ->setMeta([
                 'access_token' => \Auth::guard('api')->fromUser($user),
-                'token_type'   => 'Bearer',
-                'expires_in'   => \Auth::guard('api')->factory()->getTTL() * 60
+                'token_type' => 'Bearer',
+                'expires_in' => \Auth::guard('api')->factory()->getTTL() * 60
+            ])
+            ->setStatusCode(201);
+    }
+
+    public function storeSpider(Request $request)
+    {
+        $user = User::create([
+            'sid' => $request->sid,
+            'password' => bcrypt($request->password),
+            'name' => $request->name,
+            'email' => $request->email,
+            'type' => $request->type,
+            'department' => $request->department,
+            'intro' => $request->intro,
+            'office' => $request->office,
+            'fields' => $request->fields,
+            'avatar_url' => 'https://f.zzwcdn.com/no-avatar.png',
+        ]);
+
+        return $this->response->item($user, new UserTransformer())
+            ->setMeta([
+                'access_token' => \Auth::guard('api')->fromUser($user),
+                'token_type' => 'Bearer',
+                'expires_in' => \Auth::guard('api')->factory()->getTTL() * 60
             ])
             ->setStatusCode(201);
     }
@@ -44,7 +69,8 @@ class UserController extends Controller
         return $this->response->item($this->user(), new UserTransformer());
     }
 
-    public function show($id) {
+    public function show($id)
+    {
         $user = User::findOrFail($id);
         return $this->response->item($user, new UserTransformer);
     }

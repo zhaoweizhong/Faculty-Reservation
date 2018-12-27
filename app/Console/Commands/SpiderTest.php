@@ -12,7 +12,7 @@ class SpiderTest extends Command
      *
      * @var string
      */
-    protected $signature = 'command:spider {keyWords*}';
+    protected $signature = 'command:spider {keyWords}';
 
     /**
      * The console command description.
@@ -39,27 +39,33 @@ class SpiderTest extends Command
     public function handle()
     {
         $keyWords = $this->argument('keyWords');
-//        $url = "https://www.researchgate.net/scientific-contributions/39548198_Bin_Tan";
-//        $headers = [
-//            'user-agent' => 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36',
-//        ];
-//        $guzzleClent = new GuzzleClient([
-//            'timeout' => 20,
-//            'headers' => $headers
-//        ]);
-//        $response = $guzzleClent->request('GET', $url)->getBody()->getContents();
-//        $data = [];
-//        $crawler = new Crawler();
-//        $crawler->addHtmlContent($response);
-//        try {
-//            $crawler->filterXPath('//div[contains(@class, "nova-e-text nova-e-text--size-m nova-e-text--family-sans-serif nova-e-text--spacing-none nova-e-text--color-grey-900 scientific-contribution__disciplines-science")]')->each(function (Crawler $node, $i) use (&$data){
-//                echo $node->text();
-//            });
-//        } catch (\Exception $e) {
-//            echo 'Spider Caught exception: ', $e->getMessage() . PHP_EOL;
-//        }
         $asdf = new Spider();
-        $link = $asdf->linkReader('翟继先');
-        $data = $asdf->getInfo($link);
+        $linkData = $asdf->linkReader();
+        $sid = 30000036;
+        for ($i = 36; $i < 70; $i++) {
+            $sid++;
+            $src = $linkData[$i];
+            $beforeTrans = $asdf->getInfo($src[2]);
+            $department = (string)$src[0];
+            echo $i, ':info spidered';
+            $send = [
+                'name' => (string)$src[1],
+                'sid' => $sid,
+                'password' => (string)'123456',
+                'email' => (string)$sid.'@sustc.edu.cn',
+                'type' => (string)'faculty',
+                'department' => $department,
+                'intro' => (string)'这是'.$src[1].'教授的简介。生解不预自现福亲环油出民大实的每热养路诗平际女议检饭亮们健任相，以花就计目我灯的比台，理西虽以是。行半金广有子：止不有记去，道现行北上过体青吃去件境那何时第受易史境。有心得钱觉他持产行出人工方了性城且带一妈，大兴主招可力价儿。',
+                'office' => (string)'南科大某办公室',
+                'fields' => (string)str_replace('，', '、', $asdf->translate($beforeTrans))
+            ];
+            echo ', info collected';
+            $asdf->postFaculty($send);
+            echo ', info stored', "\n";
+        }
+
+        //        $data = $asdf->getInfo($link);
+//        $asdf->translate([]);
+        //        $asdf->postFaculty();
     }
 }
