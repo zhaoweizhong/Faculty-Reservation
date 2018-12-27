@@ -4939,6 +4939,11 @@ mockjs@^1.0.1-beta3:
   dependencies:
     commander "*"
 
+moment@^2.11.1, moment@^2.23.0:
+  version "2.23.0"
+  resolved "http://registry.npm.taobao.org/moment/download/moment-2.23.0.tgz#759ea491ac97d54bac5ad776996e2a58cc1bc225"
+  integrity sha1-dZ6kkayX1UusWtd2mW4qWMwbwiU=
+
 moment@^2.21.0:
   version "2.22.2"
   resolved "http://registry.npm.taobao.org/moment/download/moment-2.22.2.tgz#3c257f9839fc0e93ff53149632239eb90783ff66"
@@ -7861,6 +7866,13 @@ vue-loader@^13.7.1:
     vue-hot-reload-api "^2.2.0"
     vue-style-loader "^3.0.0"
     vue-template-es2015-compiler "^1.6.0"
+
+vue-moment@^4.0.0:
+  version "4.0.0"
+  resolved "http://registry.npm.taobao.org/vue-moment/download/vue-moment-4.0.0.tgz#20809d1e7d7fca63d556fb8d008b95993d32f5ea"
+  integrity sha1-IICdHn1/ymPVVvuNAIuVmT0y9eo=
+  dependencies:
+    moment "^2.11.1"
 
 vue-router@^3.0.1:
   version "3.0.1"

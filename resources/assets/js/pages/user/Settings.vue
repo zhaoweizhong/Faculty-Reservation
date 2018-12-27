@@ -24,7 +24,7 @@
 				</div>
 				<div class="profile-content" v-if="currUser.type=='student'">
 					<a-form
-					@submit="profileSubmit"
+					@submit="studentSubmit"
 					:autoFormCreate="(form)=>{this.form = form, studentDataInitilize()}"
 					>
 						<div class="ant-row">
@@ -116,7 +116,7 @@
 				</div>
 				<div class="profile-content" v-else>
 					<a-form
-					@submit="profileSubmit"
+					@submit="facultySubmit"
 					:autoFormCreate="(form)=>{this.form = form, facultyDataInitilize()}"
 					>
 						<div class="ant-row">
@@ -275,7 +275,7 @@ const AMenuItem = AMenu.Item;
 const DetailListItem = DetailList.Item;
 
 export default {
-	name: "BasicDetail",
+	name: "Settings",
 	components: {
 		AMenu,
 		AMenuItem,
@@ -326,13 +326,40 @@ export default {
 		handleClick(e) {
 			this.current = e.key;
 		},
-		profileSubmit(e) {
+		studentSubmit(e) {
 			e.preventDefault();
 			this.form.validateFields((err, values) => {
 				if (!err) {
 					this.$axios
 						.patch("/api/user", {
 							interested_fields: values.interested_fields,
+							intro: values.intro
+						})
+						.then(function(response) {
+							if (response.status == 200) {
+								store.state.account.user = response.data;
+								setCookie("user", JSON.stringify(response.data));
+								message.success("修改成功");
+							}
+						})
+						.catch(error => {
+							if (error.response.status == 422) {
+								message.error("个人介绍不能超过300字");
+							}else{
+								console.log(JSON.stringify(error));
+							}
+						});
+				}
+			});
+		},
+		facultySubmit(e) {
+			e.preventDefault();
+			this.form.validateFields((err, values) => {
+				if (!err) {
+					this.$axios
+						.patch("/api/user", {
+							fields: values.fields,
+							office: values.office,
 							intro: values.intro
 						})
 						.then(function(response) {

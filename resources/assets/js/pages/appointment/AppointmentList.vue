@@ -3,20 +3,20 @@
     <a-card :bordered="false">
       <a-row>
         <a-col :sm="8" :xs="24">
-          <head-info title="我的待办" content="8个任务" :bordered="true"/>
+          <head-info title="我的预约" content="8" :bordered="true"/>
         </a-col>
         <a-col :sm="8" :xs="24">
-          <head-info title="本周任务平均处理时间" content="32分钟" :bordered="true"/>
+          <head-info title="等待审核预约" content="32" :bordered="true"/>
         </a-col>
         <a-col :sm="8" :xs="24">
-          <head-info title="本周完成任务数" content="24个"/>
+          <head-info title="已完成预约" content="24"/>
         </a-col>
       </a-row>
     </a-card>
     <a-card
       style="margin-top: 24px"
       :bordered="false"
-      title="标准列表"
+      title="预约列表"
     >
       <div slot="extra">
         <a-radio-group>

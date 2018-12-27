@@ -49,7 +49,7 @@
 				</div>
 			</div>
 			<div class="edit">
-				<router-link to="/user/settings">
+				<router-link to="/settings">
 					<a-button type="dashed" icon="edit" size="default">编辑个人资料</a-button>
 				</router-link>
 			</div>
@@ -95,7 +95,7 @@ import AvatarCropper from "vue-avatar-cropper";
 const DetailListItem = DetailList.Item;
 
 export default {
-	name: "BasicDetail",
+	name: "Profile",
 	components: {
 		PageLayout,
 		ADivider,

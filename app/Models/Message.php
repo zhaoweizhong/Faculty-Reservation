@@ -18,11 +18,11 @@ class Message extends Model
     * @return User
     */
     public function sender() {
-        return $this->belongsTo('App\Models\User', 'sender_id');
+        return $this->belongsTo('App\Models\User', 'sender_id', 'sid');
     }
 
     public function receiver() {
-        return $this->belongsTo('App\Models\User', 'receiver_id');
+        return $this->belongsTo('App\Models\User', 'receiver_id', 'sid');
     }
 
     public function addReply(Message $reply) {

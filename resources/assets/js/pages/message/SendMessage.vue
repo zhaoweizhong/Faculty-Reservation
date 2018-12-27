@@ -1,13 +1,10 @@
 <template>
 	<a-card :body-style="{padding: '24px 32px'}" :bordered="false">
 		<a-form
-			@submit="handleSearch"
-      		:autoFormCreate="(form)=>{this.form = form}"
+			@submit="handleSubmit"
+      		:autoFormCreate="(form)=>{this.form = form, dataInitilize()}"
 		>
-			<a-form-item label="主题" :labelCol="{span: 7}" :wrapperCol="{span: 10}">
-				<a-input placeholder="消息主题"/>
-			</a-form-item>
-			<a-form-item label="收件人" :labelCol="{span: 7}" :wrapperCol="{span: 10}">
+			<a-form-item :colon="false" label="收件人" :labelCol="{span: 7}" :wrapperCol="{span: 10}" fieldDecoratorId="receiver_id" :fieldDecoratorOptions="{rules: [{ required: true, message: '请搜索或输入收件人' }]}">
 				<a-select
 					showSearch
 					:value="value"
@@ -19,16 +16,17 @@
 					@search="fetchUser"
 					@change="handleChange"
 					:notFoundContent="fetching ? undefined : null"
+					id="receiver_id"
 				>
 					<a-spin v-if="fetching" slot="notFoundContent" size="small"/>
 					<a-select-option v-for="d in data" :key="d.value">{{d.text}}</a-select-option>
 				</a-select>
 			</a-form-item>
-			<a-form-item label="内容" class="content-label" :labelCol="{span: 7}" :wrapperCol="{span: 10}">
-				<a-textarea placeholder="消息内容" :autosize="{ minRows: 8 }" />
+			<a-form-item :colon="false" label="内容" class="content-label" :labelCol="{span: 7}" :wrapperCol="{span: 10}" fieldDecoratorId="content" :fieldDecoratorOptions="{rules: [{ required: true, message: '请输入消息内容' }]}">
+				<a-textarea placeholder="消息内容" id="content" :autosize="{ minRows: 8 }" />
 			</a-form-item>
 			<a-form-item class="send-button" :wrapperCol="{span: 10, offset: 7}">
-				<a-button type="primary" size="large">发送</a-button>
+				<a-button type="primary" htmlType="submit" size="large">发送</a-button>
 			</a-form-item>
 		</a-form>
 	</a-card>
@@ -72,12 +70,12 @@ export default {
 		this.lastFetchId = 0;
     	this.fetchUser = debounce(this.fetchUser, 800);
 		return {
-			desc:
-			"表单页用于向用户收集或验证信息，基础表单常见于数据项较少的表单场景。",
 			value: 1,
 			data: [],
 			value: [],
 			fetching: false,
+			userId: this.$route.params.sid,
+			isSelectDisabled: this.userId?true:false
 		};
 	},
 	methods: {
@@ -86,20 +84,35 @@ export default {
 			const fetchId = this.lastFetchId;
 			this.data = []
 			this.fetching = true
-			fetch('https://randomuser.me/api/?results=5')
-				.then(response => response.json())
-				.then((body) => {
-				if (fetchId !== this.lastFetchId) { // for fetch callback order
-					return;
-				}
-				const data = body.results.map(user => ({
-					text: `${user.name.first} ${user.name.last}`,
-					value: user.login.username,
-				}));
-				this.data = data
-				this.fetching = false
+			var formData = new FormData();
+			formData.append("keyword", value);
+			this.$axios
+				.post("/api/users/search", formData)
+				.then(resp => {
+					if (fetchId !== this.lastFetchId) { // for fetch callback order
+						return;
+					}
+					let res = resp.data;
+					if (resp.status == 200) {
+						const data = res.data.map(user => ({
+							text: user.name,
+							value: user.sid,
+						}));
+						this.data = data
+						this.fetching = false
+					} else {
+						console.log("Error: " + JSON.stringify(res));
+					}
+				})
+				.catch(err => {
+					console.log("Error: " + JSON.stringify(err));
 				});
-    	},
+		},
+		dataInitilize () {
+			if (this.userId) {
+				this.form.getFieldDecorator("receiver_id", { initialValue: this.userId});
+			}
+		},
 		handleChange (value) {
 			Object.assign(this, {
 				value,
@@ -107,8 +120,34 @@ export default {
 				fetching: false,
 			})
 		},
-		handleSearch () {
-			console.log("Do Search!")
+		handleSubmit (e) {
+			console.log("Submit!")
+			e.preventDefault();
+			var thisform = this.form
+			this.form.validateFields((err, values) => {
+				if (!err) {
+					console.log("No Error! Do Submit!")
+					var formData = new FormData();
+					formData.append("receiver_id", values.receiver_id);
+					formData.append("content", values.content);
+					this.$axios
+						.post("/api/messages", formData)
+						.then(resp => {
+							let res = resp.data;
+							if (resp.status == 201) {
+								this.$message.success("发送成功");
+								thisform.resetFields() //TODO: 跳转信息详情
+							} else {
+								this.$message.success("发送失败");
+								console.log("Error: " + JSON.stringify(res));
+							}
+						})
+						.catch(err => {
+							this.$message.success("发送失败");
+							console.log("Error: " + JSON.stringify(err));
+						});
+				}
+			});
 		},
 	},
 };

@@ -24,8 +24,8 @@ class MessagesController extends Controller {
     {
         if ($request->has('reply_src_id')) {
             $message = Message::create([
-                'sender_id'    => $this->auth->user()->id,
-                'receiver_id'  => $request->receiver_id,//这里是真实的ID
+                'sender_id'    => $this->auth->user()->sid,
+                'receiver_id'  => $request->receiver_id,//这里是SID
                 'content'      => $request->content,
                 'reply_src_id' => $request->reply_src_id,
             ]);
@@ -33,7 +33,7 @@ class MessagesController extends Controller {
             $reply_src->addReply($message);
         } else {
             $message = Message::create([
-                'sender_id'    => $this->auth->user()->id,
+                'sender_id'    => $this->auth->user()->sid,
                 'receiver_id'  => $request->receiver_id,
                 'content'      => $request->content,
             ]);

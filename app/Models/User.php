@@ -22,7 +22,7 @@ class User extends Authenticatable implements JWTSubject
      * @var array
      */
     protected $fillable = [
-        'sid', 'password', 'name', 'email', 'avatar_url', 'type' ,'office', 'fields', 'intro', 'gpa', 'interested_fields'
+        'sid', 'password', 'name', 'email', 'avatar_url', 'type' ,'type_num' ,'office', 'fields', 'intro', 'gpa', 'interested_fields'
     ];
 
     /**
@@ -38,12 +38,12 @@ class User extends Authenticatable implements JWTSubject
 
     public function messages_to_me()
     {
-        return $this->hasMany('App\Models\Message', 'receiver_id');
+        return $this->hasMany('App\Models\Message', 'receiver_id', 'sid');
     }
 
     public function messages_to_other()
     {
-        return $this->hasMany('App\Models\Message', 'sender_id');
+        return $this->hasMany('App\Models\Message', 'sender_id', 'sid');
     }
 
     public function appointments()

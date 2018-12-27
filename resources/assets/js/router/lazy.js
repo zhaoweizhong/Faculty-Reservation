@@ -7,10 +7,12 @@ import Login from "../pages/login/Login";
 
 import Profile from "../pages/user/Profile";
 import Settings from "../pages/user/Settings";
+import UserProfile from "../pages/user/UserProfile";
 
 import Search from "../pages/search/Search"
 import AppointmentList from "../pages/appointment/AppointmentList"
 import Calendar from "../pages/appointment/Calendar"
+import CreateAppointment from "../pages/appointment/CreateAppointment"
 import SendMessage from "../pages/message/SendMessage"
 import Inbox from "../pages/message/Inbox"
 import SentBox from "../pages/message/SentBox"
@@ -66,7 +68,7 @@ var router = new Router({
                     icon: "dashboard"
                 },
                 {
-                    path: "/search",
+                    path: "/search/:keyword",
                     name: "搜索结果",
                     meta: {
                         requiresAuth: true
@@ -76,7 +78,17 @@ var router = new Router({
                     icon: "dashboard"
                 },
                 {
-                    path: "/user/profile",
+                    path: "/user/:id",
+                    name: "用户详情",
+                    meta: {
+                        requiresAuth: true
+                    },
+                    component: UserProfile,
+                    invisible: true,
+                    icon: "none"
+                },
+                {
+                    path: "/profile",
                     name: "个人中心",
                     meta: {
                         requiresAuth: true
@@ -86,7 +98,7 @@ var router = new Router({
                     icon: "none"
                 },
                 {
-                    path: "/user/settings",
+                    path: "/settings",
                     name: "个人设置",
                     meta: {
                         requiresAuth: true
@@ -112,6 +124,12 @@ var router = new Router({
                             name: "预约日历",
                             component: Calendar,
                             icon: "calendar"
+                        },
+                        {
+                            path: "/appointment/new/:sid",
+                            name: "新建预约",
+                            component: CreateAppointment,
+                            invisible: true,
                         }
                     ]
                 },
@@ -138,6 +156,12 @@ var router = new Router({
                             name: "发送消息",
                             component: SendMessage,
                             icon: "form"
+                        },
+                        {
+                            path: "/message/new/:sid",
+                            name: "发送消息",
+                            component: SendMessage,
+                            invisible: true
                         }
                     ]
                 },
@@ -238,6 +262,7 @@ var router = new Router({
                     name: "异常页",
                     icon: "warning",
                     component: RouteView,
+                    invisible: true,
                     children: [
                         {
                             path: "/exception/404",
@@ -265,6 +290,7 @@ var router = new Router({
                     name: "小组件",
                     icon: "appstore-o",
                     component: PageView,
+                    invisible: true,
                     children: [
                         {
                             path: "/components/taskcard",
