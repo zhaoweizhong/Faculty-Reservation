@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Models\User;
 use App\Transformers\UserTransformer;
 use App\Http\Requests\Api\UserRequest;
+use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
@@ -47,5 +48,19 @@ class UserController extends Controller
     public function show($id) {
         $user = User::findOrFail($id);
         return $this->response->item($user, new UserTransformer);
+    }
+
+    public function search(Request $request)
+    {
+        $keyword = $request->keyword;
+        $users = User::search($keyword)->paginate(5);
+        return $this->response->paginator($users, new UserTransformer());
+    }
+
+    public function searchFaculty(Request $request)
+    {
+        $keyword = $request->keyword;
+        $users = User::search($keyword)->where('type_num', 1)->paginate(10);
+        return $this->response->paginator($users, new UserTransformer());
     }
 }

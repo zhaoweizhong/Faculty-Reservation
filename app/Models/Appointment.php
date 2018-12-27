@@ -3,9 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Laravel\Scout\Searchable;
 
 class Appointment extends Model
 {
+    use Searchable;
+    
     protected $fillable = ['student_id', 'faculty_id', 'start_time', 'end_time', 'content', 'status', 'info'];
 
     /**

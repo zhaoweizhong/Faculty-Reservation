@@ -7,10 +7,12 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Auth;
 use Spatie\Permission\Traits\HasRoles;
+use Laravel\Scout\Searchable;
 
 class User extends Authenticatable implements JWTSubject
 {
     use Notifiable;
+    use Searchable;
 
     protected $table = 'users';
 
@@ -62,5 +64,18 @@ class User extends Authenticatable implements JWTSubject
     public function getJWTCustomClaims()
     {
         return [];
+    }
+
+    public function toSearchableArray()
+    {
+        return [
+            'sid' => $this->sid,
+            'name' => $this->name,
+            'email' => $this->email,
+            'department' => $this->department,
+            'intro' => $this->intro,
+            'fields' => $this->fields,
+            'type_num' => $this->type_num,
+        ];
     }
 }

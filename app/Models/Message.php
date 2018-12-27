@@ -3,9 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Laravel\Scout\Searchable;
 
 class Message extends Model
 {
+    use Searchable;
+    
     protected $table = 'messages';
     protected $fillable = ['sender_id', 'receiver_id', 'content', 'reply_id', 'reply_src_id'];
 
