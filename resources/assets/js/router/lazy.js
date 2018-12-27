@@ -9,6 +9,12 @@ import Profile from "../pages/user/Profile";
 import Settings from "../pages/user/Settings";
 
 import Search from "../pages/search/Search"
+import AppointmentList from "../pages/appointment/AppointmentList"
+import Calendar from "../pages/appointment/Calendar"
+import SendMessage from "../pages/message/SendMessage"
+import Inbox from "../pages/message/Inbox"
+import SentBox from "../pages/message/SentBox"
+
 import BasicForm from "../pages/form/BasicForm";
 import StepForm from "../pages/form/stepForm/StepForm";
 import AdvancedForm from "../pages/form/advancedForm/AdvancedForm";
@@ -88,6 +94,52 @@ var router = new Router({
                     component: Settings,
                     invisible: true,
                     icon: "none"
+                },
+                {
+                    path: "/appointment",
+                    name: "预约",
+                    component: PageView,
+                    icon: "schedule",
+                    children: [
+                        {
+                            path: "/appointment/list",
+                            name: "我的预约",
+                            component: AppointmentList,
+                            icon: "profile"
+                        },
+                        {
+                            path: "/appointment/calendar",
+                            name: "预约日历",
+                            component: Calendar,
+                            icon: "calendar"
+                        }
+                    ]
+                },
+                {
+                    path: "/message",
+                    name: "消息",
+                    component: PageView,
+                    icon: "message",
+                    children: [
+                        {
+                            path: "/message/inbox",
+                            name: "收件箱",
+                            component: Inbox,
+                            icon: "inbox"
+                        },
+                        {
+                            path: "/message/sent",
+                            name: "发件箱",
+                            component: SentBox,
+                            icon: "mail"
+                        },
+                        {
+                            path: "/message/new",
+                            name: "发送消息",
+                            component: SendMessage,
+                            icon: "form"
+                        }
+                    ]
                 },
                 {
                     path: "/form",

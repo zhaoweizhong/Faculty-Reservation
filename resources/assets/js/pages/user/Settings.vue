@@ -22,10 +22,10 @@
 				<div class="title">
 					<span>个人资料</span>
 				</div>
-				<div class="profile-content">
+				<div class="profile-content" v-if="currUser.type=='student'">
 					<a-form
 					@submit="profileSubmit"
-					:autoFormCreate="(form)=>{this.form = form, dataInitilize()}"
+					:autoFormCreate="(form)=>{this.form = form, studentDataInitilize()}"
 					>
 						<div class="ant-row">
 							<div class="left ant-col-8">
@@ -104,6 +104,88 @@
 								:fieldDecoratorOptions="{rules: [{ required: true, message: '请输入个人介绍' }]}"
 								>
 									<a-textarea placeholder="个人介绍..." id="intro" :autosize="{ minRows: 21.5 }"/>
+								</a-form-item>
+							</div>
+						</div>
+						<div class="ant-row">
+							<a-form-item>
+								<a-button type="primary" htmlType="submit" size="large">提交</a-button>
+							</a-form-item>
+						</div>
+					</a-form>
+				</div>
+				<div class="profile-content" v-else>
+					<a-form
+					@submit="profileSubmit"
+					:autoFormCreate="(form)=>{this.form = form, facultyDataInitilize()}"
+					>
+						<div class="ant-row">
+							<div class="left ant-col-8">
+								<a-form-item
+								:labelCol="{ span: 4 }"
+								:wrapperCol="{ span: 24 }"
+								label="姓名"
+								:colon="false"
+								fieldDecoratorId="name"
+								:fieldDecoratorOptions="{rules: [{ required: true, message: '请输入姓名' }]}"
+								>
+									<a-input placeholder="姓名" disabled/>
+								</a-form-item>
+								<a-form-item
+								:labelCol="{ span: 4 }"
+								:wrapperCol="{ span: 24 }"
+								label="邮箱"
+								:colon="false"
+								fieldDecoratorId="email"
+								:fieldDecoratorOptions="{rules: [{ required: true, message: '请输入邮箱' }]}"
+								>
+									<a-input placeholder="邮箱" disabled/>
+								</a-form-item>
+								<a-form-item
+								:labelCol="{ span: 4 }"
+								:wrapperCol="{ span: 24 }"
+								label="院系"
+								:colon="false"
+								fieldDecoratorId="department"
+								:fieldDecoratorOptions="{rules: [{ required: true, message: '请输入院系' }]}"
+								>
+									<a-input placeholder="院系" disabled/>
+								</a-form-item>
+								<a-form-item
+								:labelCol="{ span: 4 }"
+								:wrapperCol="{ span: 24 }"
+								label="办公室"
+								:colon="false"
+								fieldDecoratorId="office"
+								:fieldDecoratorOptions="{rules: [{ required: true, message: '请输入办公室' }]}"
+								>
+									<a-input placeholder="办公室" id="office"/>
+								</a-form-item>
+								<a-form-item
+								:labelCol="{ span: 8 }"
+								:wrapperCol="{ span: 24 }"
+								label="研究方向"
+								:colon="false"
+								fieldDecoratorId="fields"
+								:fieldDecoratorOptions="{rules: [{ required: true, message: '请输入研究方向' }]}"
+								>
+									<a-textarea
+									placeholder="研究方向..."
+									id="fields"
+									:autosize="{ minRows: 2 }"
+									/>
+								</a-form-item>
+							</div>
+							<div class="right ant-col-16">
+								<a-form-item
+								:labelCol="{ span: 3 }"
+								:wrapperCol="{ span: 24 }"
+								label="个人介绍"
+								:colon="false"
+								fieldDecoratorId="intro"
+								:fieldDecoratorOptions="{rules: [{ required: true, message: '请输入个人介绍' }]}"
+								>
+									<a-textarea placeholder="个人介绍..." id="intro" :autosize="{ minRows: 17.7 }"/>
 								</a-form-item>
 							</div>
 						</div>
@@ -211,24 +293,34 @@ export default {
 		AIcon,
 		ATag
 	},
+	computed: {
+		currUser() {
+			return this.$store.state.account.user;
+		}
+	},
 	data() {
 		return {
 			current: "1"
 		};
 	},
 	methods: {
-		dataInitilize() {
+		studentDataInitilize() {
 			var cookieUser = JSON.parse(getCookie("user"));
 			this.form.getFieldDecorator("name", { initialValue: cookieUser.name });
 			this.form.getFieldDecorator("email", { initialValue: cookieUser.email });
-			this.form.getFieldDecorator("department", {
-				initialValue: cookieUser.department
-			});
+			this.form.getFieldDecorator("department", {initialValue: cookieUser.department});
 			this.form.getFieldDecorator("major", { initialValue: cookieUser.major });
 			this.form.getFieldDecorator("gpa", { initialValue: cookieUser.gpa });
-			this.form.getFieldDecorator("interested_fields", {
-				initialValue: cookieUser.interested_fields
-			});
+			this.form.getFieldDecorator("interested_fields", {initialValue: cookieUser.interested_fields});
+			this.form.getFieldDecorator("intro", { initialValue: cookieUser.intro });
+		},
+		facultyDataInitilize() {
+			var cookieUser = JSON.parse(getCookie("user"));
+			this.form.getFieldDecorator("name", { initialValue: cookieUser.name });
+			this.form.getFieldDecorator("email", { initialValue: cookieUser.email });
+			this.form.getFieldDecorator("department", {initialValue: cookieUser.department});
+			this.form.getFieldDecorator("office", { initialValue: cookieUser.office });
+			this.form.getFieldDecorator("fields", {initialValue: cookieUser.fields});
 			this.form.getFieldDecorator("intro", { initialValue: cookieUser.intro });
 		},
 		handleClick(e) {
