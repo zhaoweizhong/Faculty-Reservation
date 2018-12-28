@@ -7,8 +7,18 @@ import Login from "../pages/login/Login";
 
 import Profile from "../pages/user/Profile";
 import Settings from "../pages/user/Settings";
+import UserProfile from "../pages/user/UserProfile";
 
 import Search from "../pages/search/Search"
+import AppointmentList from "../pages/appointment/AppointmentList"
+import AppointmentDetail from "../pages/appointment/AppointmentDetail"
+import Calendar from "../pages/appointment/Calendar"
+import CreateAppointment from "../pages/appointment/CreateAppointment"
+import SendMessage from "../pages/message/SendMessage"
+import Inbox from "../pages/message/Inbox"
+import SentBox from "../pages/message/SentBox"
+import MessageDetail from "../pages/message/MessageDetail"
+
 import BasicForm from "../pages/form/BasicForm";
 import StepForm from "../pages/form/stepForm/StepForm";
 import AdvancedForm from "../pages/form/advancedForm/AdvancedForm";
@@ -60,7 +70,7 @@ var router = new Router({
                     icon: "dashboard"
                 },
                 {
-                    path: "/search",
+                    path: "/search/:keyword",
                     name: "搜索结果",
                     meta: {
                         requiresAuth: true
@@ -70,7 +80,17 @@ var router = new Router({
                     icon: "dashboard"
                 },
                 {
-                    path: "/user/profile",
+                    path: "/user/:id",
+                    name: "用户详情",
+                    meta: {
+                        requiresAuth: true
+                    },
+                    component: UserProfile,
+                    invisible: true,
+                    icon: "none"
+                },
+                {
+                    path: "/profile",
                     name: "个人中心",
                     meta: {
                         requiresAuth: true
@@ -80,7 +100,7 @@ var router = new Router({
                     icon: "none"
                 },
                 {
-                    path: "/user/settings",
+                    path: "/settings",
                     name: "个人设置",
                     meta: {
                         requiresAuth: true
@@ -90,10 +110,95 @@ var router = new Router({
                     icon: "none"
                 },
                 {
+                    path: "/appointment/:id",
+                    name: "预约详情",
+                    component: AppointmentDetail,
+                    invisible: true,
+                },
+                {
+                    path: "/appointments",
+                    name: "预约",
+                    component: PageView,
+                    icon: "schedule",
+                    children: [
+                        {
+                            path: "/appointments/list",
+                            name: "我的预约",
+                            component: AppointmentList,
+                            icon: "profile"
+                        },
+                        {
+                            path: "/appointments/calendar",
+                            name: "预约日历",
+                            component: Calendar,
+                            icon: "calendar",
+                            invisible: true,
+                        },
+                        {
+                            path: "/appointments/new/:sid",
+                            name: "新建预约",
+                            component: CreateAppointment,
+                            invisible: true,
+                        },
+                        {
+                            path: "/appointments/:id/success",
+                            name: "提交成功",
+                            invisible: true,
+                            component: SuccessResult
+                        },
+                        {
+                            path: "/result/error",
+                            name: "失败",
+                            invisible: true,
+                            component: ErrorResult
+                        }
+                    ]
+                },
+                {
+                    path: "/message",
+                    name: "消息",
+                    component: PageView,
+                    icon: "message",
+                    children: [
+                        {
+                            path: "/messages/inbox",
+                            name: "收件箱",
+                            component: Inbox,
+                            icon: "inbox"
+                        },
+                        {
+                            path: "/messages/sent",
+                            name: "发件箱",
+                            component: SentBox,
+                            icon: "mail",
+                            invisible: true,
+                        },
+                        {
+                            path: "/messages/new",
+                            name: "发送消息",
+                            component: SendMessage,
+                            icon: "form"
+                        },
+                        {
+                            path: "/messages/new/:sid",
+                            name: "发送消息",
+                            component: SendMessage,
+                            invisible: true
+                        },
+                        {
+                            path: "/message/:id",
+                            name: "消息详情",
+                            component: MessageDetail,
+                            invisible: true
+                        }
+                    ]
+                },
+                {
                     path: "/form",
                     name: "表单页",
                     component: PageView,
                     icon: "form",
+                    invisible: true,
                     children: [
                         {
                             path: "/form/basic",
@@ -120,6 +225,7 @@ var router = new Router({
                     name: "列表页",
                     component: PageView,
                     icon: "table",
+                    invisible: true,
                     children: [
                         {
                             path: "/list/query",
@@ -146,6 +252,7 @@ var router = new Router({
                     name: "详情页",
                     icon: "profile",
                     component: RouteView,
+                    invisible: true,
                     children: [
                         {
                             path: "/detail/basic",
@@ -162,30 +269,11 @@ var router = new Router({
                     ]
                 },
                 {
-                    path: "/result",
-                    name: "结果页",
-                    icon: "check-circle-o",
-                    component: PageView,
-                    children: [
-                        {
-                            path: "/result/success",
-                            name: "成功",
-                            icon: "none",
-                            component: SuccessResult
-                        },
-                        {
-                            path: "/result/error",
-                            name: "失败",
-                            icon: "none",
-                            component: ErrorResult
-                        }
-                    ]
-                },
-                {
                     path: "/exception",
                     name: "异常页",
                     icon: "warning",
                     component: RouteView,
+                    invisible: true,
                     children: [
                         {
                             path: "/exception/404",
@@ -204,27 +292,6 @@ var router = new Router({
                             name: "500",
                             icon: "none",
                             component: Error500
-                        }
-                    ]
-                },
-                {
-                    path: "/components",
-                    redirect: "/components/taskcard",
-                    name: "小组件",
-                    icon: "appstore-o",
-                    component: PageView,
-                    children: [
-                        {
-                            path: "/components/taskcard",
-                            name: "任务卡片",
-                            icon: "none",
-                            component: TaskCard
-                        },
-                        {
-                            path: "/components/palette",
-                            name: "颜色复选框",
-                            icon: "none",
-                            component: Palette
                         }
                     ]
                 },

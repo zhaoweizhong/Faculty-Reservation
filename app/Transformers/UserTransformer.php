@@ -34,6 +34,7 @@ class UserTransformer extends TransformerAbstract
                 'email'          => $user->email,
                 'avatar_url'     => $user->avatar_url,
                 'type'           => $user->type,
+                'department'     => $user->department,
                 'intro'          => $user->intro,
                 'is_admin'       => $user->is_admin,
                 'office'         => $user->office,

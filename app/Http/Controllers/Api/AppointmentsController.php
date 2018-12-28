@@ -34,16 +34,22 @@ class AppointmentsController extends Controller
 
     public function isFacultyAvailable($faculty_id, $start_time_str, $end_time_str) {
         $faculty = \App\Models\User::where('sid', $faculty_id)->first();
-        $appointments = $faculty->appointments();
+        $appointments = $faculty->appointments;
         $start_time = Carbon::parse($start_time_str);
         $end_time = Carbon::parse($end_time_str);
 
+        $flag = true;
         foreach ($appointments as $determined_appointment){
-            if ($determined_appointment->status != "canceled" or $determined_appointment->status != "refused") {
+            if ($determined_appointment->status != "cancelled" or $determined_appointment->status != "refused") {
                 $reserved_start = Carbon::parse($determined_appointment->start_time);
                 $reserved_end = Carbon::parse($determined_appointment->end_time);
                 
-                if (!(($start_time->gte($reserved_end)) or ($end_time->lte($reserved_start)))){
+                if ((($start_time->gte($reserved_end)) or ($end_time->lte($reserved_start)))){
+                    $flag = true;
+                } else {
+                    $flag = false;
+                }
+                if ($flag == false) {
                     return false;
                 }
             }
@@ -71,10 +77,21 @@ class AppointmentsController extends Controller
         return $this->response->item($appointment, new AppointmentTransformer())->setStatusCode(200);;
     }
 
-    public function userIndex(User $user) {
-        $appointments = $user->appointments()->orderBy('created_at','desc')->paginate(20);
+    public function userIndex(User $user, Request $request) {
+        $appointments = $user->appointments();
 
-        return $this->response->paginator($appointments, new AppointmentTransformer());
+        if ($request->filter != 'all') {
+            $appointmentsPaginate = $appointments->where('status', $request->filter)->orderBy('created_at','desc')->paginate(7);
+        }
+
+        $appointmentsPaginate = $appointments->orderBy('created_at','desc')->paginate(7);
+        return $this->response->paginator($appointmentsPaginate, new AppointmentTransformer())->setMeta(['detail' => [
+            'total'     => $appointments->count(),
+            'pending'   => $user->appointments()->where('status', 'pending')->count(),
+            'confirmed' => $user->appointments()->where('status', 'confirmed')->count(),
+            'refused'   => $user->appointments()->where('status', 'refused')->count(),
+            'cancelled'  => $user->appointments()->where('status', 'cancelled')->count(),
+        ]]);
     }
 
     public function setStatus(Request $request, Appointment $appointment) {

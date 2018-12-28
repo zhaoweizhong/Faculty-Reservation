@@ -49,7 +49,7 @@
 				</div>
 			</div>
 			<div class="edit">
-				<router-link to="/user/settings">
+				<router-link to="/settings">
 					<a-button type="dashed" icon="edit" size="default">编辑个人资料</a-button>
 				</router-link>
 			</div>
@@ -57,12 +57,21 @@
 
 		<a-divider style="margin-bottom: 32px" />
 		<detail-list title="个人资料">
-			<detail-list-item term="学号">{{ currUser.sid }}</detail-list-item>
-			<detail-list-item term="邮箱">{{ currUser.email }}</detail-list-item>
-			<detail-list-item term="院系">{{ currUser.department }}</detail-list-item>
-			<detail-list-item term="专业">{{ currUser.major }}</detail-list-item>
-			<detail-list-item term="GPA">{{ currUser.gpa }}</detail-list-item>
-			<detail-list-item term="兴趣方向">{{ currUser.interested_fields }}</detail-list-item>
+			<div v-if="currUser.type=='student'">
+				<detail-list-item term="学号">{{ currUser.sid }}</detail-list-item>
+				<detail-list-item term="邮箱">{{ currUser.email }}</detail-list-item>
+				<detail-list-item term="院系">{{ currUser.department }}</detail-list-item>
+				<detail-list-item term="专业">{{ currUser.major }}</detail-list-item>
+				<detail-list-item term="GPA">{{ currUser.gpa }}</detail-list-item>
+				<detail-list-item term="兴趣方向">{{ currUser.interested_fields }}</detail-list-item>
+			</div>
+			<div v-else>
+				<detail-list-item term="工号">{{ currUser.sid }}</detail-list-item>
+				<detail-list-item term="邮箱">{{ currUser.email }}</detail-list-item>
+				<detail-list-item term="院系">{{ currUser.department }}</detail-list-item>
+				<detail-list-item term="办公室">{{ currUser.office }}</detail-list-item>
+				<detail-list-item term="研究方向">{{ currUser.fields }}</detail-list-item>
+			</div>
 		</detail-list>
 		<a-divider style="margin-bottom: 32px" />
 		<div class="intro-title">个人介绍</div>
@@ -86,7 +95,7 @@ import AvatarCropper from "vue-avatar-cropper";
 const DetailListItem = DetailList.Item;
 
 export default {
-	name: "BasicDetail",
+	name: "Profile",
 	components: {
 		PageLayout,
 		ADivider,
@@ -125,48 +134,48 @@ export default {
 		);
 	},
 	methods: {
-	handleUpload(result) {
-		result.getCroppedCanvas(this.outputOptions).toBlob(blob => {
-			var formData = new FormData();
-			formData.append("image", blob);
-			let config = {
-				headers: { "Content-Type": "multipart/form-data" }
-			};
-			this.$axios
-				.post("/api/images", formData, config)
-				.then(resp => {
-					let res = resp.data;
-					console.log("resp " + resp);
-					if (res.status_code == 201) {
-						this.$store.state.account.user.avatar_url = res.url;
-						this.$axios
-						.patch("/api/user", {
-							avatar_url: res.url
-						})
-						.then(response => {
-							console.log("response " + response);
-							let result = response.data;
-							if (response.status == 201) {
-							this.$message.success("头像设置成功");
-							}
-						})
-						.catch(error => {
+		handleUpload(result) {
+			result.getCroppedCanvas(this.outputOptions).toBlob(blob => {
+				var formData = new FormData();
+				formData.append("image", blob);
+				let config = {
+					headers: { "Content-Type": "multipart/form-data" }
+				};
+				this.$axios
+					.post("/api/images", formData, config)
+					.then(resp => {
+						let res = resp.data;
+						console.log("resp " + resp);
+						if (res.status_code == 201) {
+							this.$store.state.account.user.avatar_url = res.url;
+							this.$axios
+							.patch("/api/user", {
+								avatar_url: res.url
+							})
+							.then(response => {
+								console.log("response " + response);
+								let result = response.data;
+								if (response.status == 201) {
+								this.$message.success("头像设置成功");
+								}
+							})
+							.catch(error => {
+								this.$message.error("头像设置失败");
+								console.log(
+								"User Patch Error: " + error.response.data.message
+								);
+							});
+						} else {
 							this.$message.error("头像设置失败");
-							console.log(
-							"User Patch Error: " + error.response.data.message
-							);
-						});
-					} else {
+							console.log("Upload Error: " + JSON.stringify(res));
+						}
+					})
+					.catch(err => {
 						this.$message.error("头像设置失败");
-						console.log("Upload Error: " + JSON.stringify(res));
-					}
-				})
-				.catch(err => {
-					this.$message.error("头像设置失败");
-					console.log("Upload Error: " + JSON.stringify(err));
-				});
-		});
-	}
+						console.log("Upload Error: " + JSON.stringify(err));
+					});
+			});
+		}
 	}
 };
 </script>
