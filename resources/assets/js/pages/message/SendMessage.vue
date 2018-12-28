@@ -136,14 +136,14 @@ export default {
 							let res = resp.data;
 							if (resp.status == 201) {
 								this.$message.success("发送成功");
-								thisform.resetFields() //TODO: 跳转信息详情
+								this.$router.push('/message/' + res.id)
 							} else {
-								this.$message.success("发送失败");
+								this.$message.error("发送失败");
 								console.log("Error: " + JSON.stringify(res));
 							}
 						})
 						.catch(err => {
-							this.$message.success("发送失败");
+							this.$message.error("发送失败");
 							console.log("Error: " + JSON.stringify(err));
 						});
 				}

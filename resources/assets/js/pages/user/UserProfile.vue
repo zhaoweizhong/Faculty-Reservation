@@ -181,8 +181,8 @@ export default {
 								console.log("resp " + JSON.stringify(resp));
 								if (resp.status == 201) {
 									this.result = res
-									console.log(JSON.stringify(this.result))
 									this.$message.success("预约创建成功，请等待老师审核");
+									this.$router.push('/appointments/' + this.result.id + '/success')
 								} else {
 									this.$message.error("预约创建失败");
 									console.log("Error: " + JSON.stringify(res));
@@ -215,23 +215,24 @@ export default {
 				if (err) {
 					console.log("Form Error: " + err) 
 				} else {
+					console.log(values.facultyId)
 					var formData = new FormData();
-					formData.append("receiver_id", values.receiver_id);
+					formData.append("receiver_id", values.facultyId);
 					formData.append("content", values.content);
 					this.$axios
 						.post("/api/messages", formData)
 						.then(resp => {
 							let res = resp.data;
 							if (resp.status == 201) {
-								this.$message.success("发送成功");
-								thisform.resetFields() //TODO: 跳转信息详情
+								console.log(JSON.stringify(res))
+								this.$router.push('/message/' + res.id)
 							} else {
-								this.$message.success("发送失败");
+								this.$message.error("发送失败");
 								console.log("Error: " + JSON.stringify(res));
 							}
 						})
 						.catch(err => {
-							this.$message.success("发送失败");
+							this.$message.error("发送失败");
 							console.log("Error: " + JSON.stringify(err));
 						});
 				}

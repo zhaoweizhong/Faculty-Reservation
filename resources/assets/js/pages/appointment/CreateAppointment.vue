@@ -120,9 +120,8 @@ export default {
 							console.log("resp " + JSON.stringify(resp));
 							if (resp.status == 201) {
 								this.result = res
-								console.log(JSON.stringify(this.result))
 								this.$message.success("预约创建成功，请等待老师审核");
-								thisform.resetFields() //TODO: 跳转预约详情
+								this.$router.push('/appointments/' + this.result.id + '/success')
 							} else {
 								this.$message.error("预约创建失败");
 								console.log("Error: " + JSON.stringify(res));

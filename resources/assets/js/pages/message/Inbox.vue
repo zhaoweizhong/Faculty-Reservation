@@ -1,67 +1,36 @@
 <template>
   <div>
-    <a-card :bordered="false">
-      <a-row>
-        <a-col :sm="8" :xs="24">
-          <head-info title="我的待办" content="8个任务" :bordered="true"/>
-        </a-col>
-        <a-col :sm="8" :xs="24">
-          <head-info title="本周任务平均处理时间" content="32分钟" :bordered="true"/>
-        </a-col>
-        <a-col :sm="8" :xs="24">
-          <head-info title="本周完成任务数" content="24个"/>
-        </a-col>
-      </a-row>
-    </a-card>
     <a-card
       style="margin-top: 24px"
       :bordered="false"
-      title="标准列表"
+      title="消息列表"
     >
-      <div slot="extra">
-        <a-radio-group>
-          <a-radio-button>全部</a-radio-button>
-          <a-radio-button>进行中</a-radio-button>
-          <a-radio-button>等待中</a-radio-button>
-        </a-radio-group>
-        <a-input-search style="margin-left: 16px; width: 272px;" />
-      </div>
-      <a-button type="dashed" style="width: 100%" icon="plus">添加</a-button>
-      <a-list size="large" :pagination="{showSizeChanger: true, showQuickJumper: true, pageSize: 5, total: 50}">
-        <a-list-item :key="i" v-for="i in 5">
-          <a-list-item-meta
-            description="那是一种内在的东西， 他们到达不了，也无法触及的"
-          >
-            <a-avatar slot="avatar" size="large" shape="square" src="https://gw.alipayobjects.com/zos/rmsportal/WdGqmHpayyMjiEhcKoVE.png"/>
-            <a slot="title">Alipay</a>
-          </a-list-item-meta>
-          <div slot="actions">
-            <a>编辑</a>
-          </div>
-          <div slot="actions">
-            <a-dropdown>
-              <a-menu slot="overlay">
-                <a-menu-item><a>编辑</a></a-menu-item>
-                <a-menu-item><a>删除</a></a-menu-item>
-              </a-menu>
-              <a>更多<a-icon type="down"/></a>
-            </a-dropdown>
-          </div>
-          <div class="list-content">
-            <div class="list-content-item">
-              <span>Owner</span>
-              <p>付晓晓</p>
+      <router-link to="/messages/new"><a-button type="dashed" style="width: 100%" icon="plus">新消息</a-button></router-link>
+      <a-spin tip="正在加载..." :spinning="loading">
+        <a-list size="large">
+          <a-list-item v-for="message in messages" :key="message.id">
+            <a-list-item-meta
+              :description="message.content"
+            >
+              <a-avatar slot="avatar" size="large" shape="square" :src="message.sender.avatar_url"/>
+              <router-link :to="'/user/'+message.sender.id" slot="title">{{message.sender.name}}</router-link>
+            </a-list-item-meta>
+            <div slot="actions">
+              <router-link :to="'/message/' + message.id">查看</router-link>
             </div>
-            <div class="list-content-item">
-              <span>开始时间</span>
-              <p>2018-07-26 22:44</p>
+            <div class="list-content">
+              <div class="list-content-item">
+                <span>发送时间</span>
+                <p>{{message.created_at}}</p>
+              </div>
+              <div class="list-content-item">
+                <a-tag v-if="message.read == '1'" color="#87d068">已读</a-tag>
+                <a-tag v-else-if="message.read == '0'" color="#f50">未读</a-tag>
+              </div>
             </div>
-            <div class="list-content-item">
-              <a-progress :percent="80" style="width: 180px" />
-            </div>
-          </div>
-        </a-list-item>
-      </a-list>
+          </a-list-item>
+        </a-list>
+      </a-spin>
     </a-card>
   </div>
 </template>
@@ -84,6 +53,9 @@ import AInput from 'ant-design-vue/es/input/Input'
 import AInputSearch from 'ant-design-vue/es/input/Search'
 import ARadioGroup from 'ant-design-vue/es/radio/Group'
 import ARadio from 'ant-design-vue/es/radio'
+import ASpin from 'ant-design-vue/es/spin/Spin'
+import ATag from "ant-design-vue/es/tag/Tag";
+import { getCookie } from "tiny-cookie";
 
 const AListItemMeta = AListItem.Meta
 const AMenuItem = AMenu.Item
@@ -110,7 +82,34 @@ export default {
     HeadInfo,
     ACol,
     ARow,
-    ACard}
+    ACard,
+    ASpin,
+    ATag
+    },
+    created() {
+      this.getPage(1,'d')
+    },
+    data() {
+      return {
+        messages: '',
+        loading: false,
+      }
+    },
+    methods: {
+      getPage(page, filter) {
+      this.loading = true
+      var t = this
+      axios.defaults.headers.common["Authorization"] = "Bearer " + getCookie("token");
+      this.$axios.get('/api/messages/inbox')
+          .then(function (response) {
+            t.messages = response.data.data
+            t.loading = false
+          })
+          .catch(err => {
+            console.log("Error: " + JSON.stringify(err));
+          });
+    },
+    },
 }
 </script>
 

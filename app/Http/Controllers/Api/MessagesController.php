@@ -58,7 +58,10 @@ class MessagesController extends Controller {
     }
 
     public function setRead(Message $message) {
-        $message->setRead();
+        $user = $this->auth->user();
+        if ($user == $message->receiver) {
+            $message->setRead();
+        }
         return $this->response->noContent()->setStatusCode(200);
     }
 }

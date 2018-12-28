@@ -3,6 +3,7 @@
 namespace App\Transformers;
 
 use App\Models\Appointment;
+use App\Models\User;
 use League\Fractal\TransformerAbstract;
 
 class AppointmentTransformer extends TransformerAbstract
@@ -18,6 +19,9 @@ class AppointmentTransformer extends TransformerAbstract
             'content'    => $appointment->content,
             'status'     => $appointment->status,
             'info'       => $appointment->info,
+            'created_at' => $appointment->created_at,
+            'faculty'    => User::where('sid', $appointment->faculty_id)->first(),
+            'student'    => User::where('sid', $appointment->student_id)->first(),
         ];
 
     }

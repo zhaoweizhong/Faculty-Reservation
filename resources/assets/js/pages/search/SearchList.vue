@@ -3,7 +3,7 @@
     <a-list
       :grid="{ gutter: 24, xl: 4, lg: 3, md: 3, sm: 2, xs: 1 }"
     >
-       <a-list-item style="padding: 0 12px" v-for="searchResult in result.data" :key="searchResult.id">
+       <a-list-item style="padding: 0 12px" v-for="searchResult in result" :key="searchResult.id">
         <a-card>
           <a-card-meta class="card-name" :title="searchResult.name" :description="searchResult.department" @click="redirectProfile(searchResult.id)">
             <a-avatar slot="avatar" :src="searchResult.avatar_url" size="large" />
@@ -30,6 +30,9 @@
         </a-card>
       </a-list-item>
     </a-list>
+    <div class="list-pagination">
+        <a-pagination v-model="currentPage" @change="handlePageChange" :total="this.pagination.total" :pageSize="this.pagination.per_page"/>
+    </div>
   </div>
 </template>
 
@@ -43,14 +46,15 @@ import ATooltip from 'ant-design-vue/es/tooltip/Tooltip'
 import AIcon from 'ant-design-vue/es/icon/icon'
 import ADropdown from 'ant-design-vue/es/dropdown'
 import AMenu from 'ant-design-vue/es/menu/index'
+import APagination from 'ant-design-vue/es/pagination'
 
 const AMenuItem = AMenu.Item
 
 export default {
   name: 'SearchList',
-  components: {AMenuItem, AMenu, ADropdown, AIcon, ATooltip, AAvatar, ACardMeta, AListItem, AList, ACard},
+  components: {AMenuItem, AMenu, ADropdown, AIcon, ATooltip, AAvatar, ACardMeta, AListItem, AList, ACard, APagination},
   created() {
-    this.doSearch()
+    this.doSearch(1)
   },
   props: {
     fatherKeyword: {
@@ -63,22 +67,27 @@ export default {
   data() {
     return {
       keyword: this.fatherKeyword,
-      result: {}
+      currentPage: 1,
+      detail: {},
+      result: {},
+      pagination: {},
     }
   },
   methods: {
-    doSearch () {
+    doSearch (page) {
       this.$emit('loading' , true);
+      var t = this
       var formData = new FormData();
       formData.append("keyword", this.keyword);
       this.$axios
-      .post("/api/users/faculty/search", formData)
+      .post("/api/users/faculty/search?page=" + page, formData)
       .then(resp => {
-        let res = resp.data;
         console.log("resp " + JSON.stringify(resp));
         if (resp.status == 200) {
-          this.result = res
-          this.$emit('loading' , false);
+          t.result = resp.data.data
+          t.detail = resp.data.meta.detail
+          t.pagination = resp.data.meta.pagination
+          t.$emit('loading' , false);
         } else {
           console.log("Error: " + JSON.stringify(res));
         }
@@ -91,16 +100,20 @@ export default {
       this.$router.push('/user/' + id)
     },
     redirectMessage (sid) {
-      this.$router.push('/message/new/' + sid)
+      this.$router.push('/messages/new/' + sid)
     },
     redirectAppointment (sid) {
-      this.$router.push('/appointment/new/' + sid)
+      this.$router.push('/appointments/new/' + sid)
+    },
+    handlePageChange (page, pageSize) {
+      this.currentPage = page,
+      this.doSearch(page)
     }
   },
   watch: {
     '$route' (to, from) {
       this.keyword = to.params.keyword
-      this.doSearch()
+      this.doSearch(1)
     }
   },
 }
@@ -161,5 +174,9 @@ export default {
         margin-bottom: 0;
       }
     }
+  }
+  .list-pagination {
+    margin-top: 15px;
+    text-align: center;
   }
 </style>

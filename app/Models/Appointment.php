@@ -25,7 +25,7 @@ class Appointment extends Model
     }
 
     public function cancel() {
-        $this->attributes['status'] = 'canceled';
+        $this->attributes['status'] = 'cancelled';
         $this->save();
     }
 
