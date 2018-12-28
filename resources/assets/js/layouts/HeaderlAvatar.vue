@@ -47,10 +47,10 @@ export default {
           this.$message.success('您已成功退出')
       },
       profile() {
-          this.$router.push('/user/profile')
+          this.$router.push('/profile')
       },
       settings() {
-          this.$router.push('/user/settings')
+          this.$router.push('/settings')
       }
   }
  }

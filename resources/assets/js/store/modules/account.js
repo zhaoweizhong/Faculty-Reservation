@@ -18,6 +18,7 @@ export default {
             axios.get('/api/user')
                 .then(function (response) {
                     state.user = response.data
+                    setCookie('user', JSON.stringify(response.data))
                 });
         },
         logout(state) {

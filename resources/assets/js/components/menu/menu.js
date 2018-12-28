@@ -87,7 +87,7 @@ export default {
         : h(
           Icon,
           {
-            props: {type: icon !== undefined ? icon : iconArr[Math.floor((Math.random() * iconArr.length))]}
+            props: {type: icon !== undefined ? icon : iconArr[Math.floor((Math.random() * iconArr.length))], theme: 'outlined'}
           })
     },
     renderMenuItem: function (h, menu, pIndex, index) {

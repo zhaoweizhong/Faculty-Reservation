@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers\Api;
 
-use Illuminate\Http\Request;
-use App\Transformers\ImageTransformer;
 use App\Http\Requests\Api\ImageRequest;
 use Illuminate\Support\Facades\Storage;
 

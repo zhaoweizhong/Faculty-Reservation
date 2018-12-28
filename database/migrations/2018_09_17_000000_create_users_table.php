@@ -21,6 +21,7 @@ class CreateUsersTable extends Migration
             $table->string('email');
             $table->string('avatar_url')->nullable();
             $table->string('type');
+            $table->boolean('type_num');
             $table->string('department')->nullable();
             $table->text('intro')->nullable();
             $table->boolean('is_admin')->default(0);
@@ -29,7 +30,6 @@ class CreateUsersTable extends Migration
             //教师
             $table->string('office')->nullable();
             $table->string('fields')->nullable();
-            $table->text('available_time')->nullable();
             //学生
             $table->string('major')->nullable();
             $table->string('gpa')->nullable();
