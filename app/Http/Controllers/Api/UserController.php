@@ -12,11 +12,12 @@ class UserController extends Controller
     public function store(UserRequest $request)
     {
         $user = User::create([
-            'sid' => $request->sid,
-            'password' => bcrypt($request->password),
-            'name' => $request->name,
-            'email' => $request->email,
-            'type' => $request->type,
+            'sid'        => $request->sid,
+            'password'   => bcrypt($request->password),
+            'name'       => $request->name,
+            'email'      => $request->email,
+            'type'       => $request->type,
+            'type_num'   => $request->type == 'student' ? 0 : 1,
             'avatar_url' => 'https://f.zzwcdn.com/no-avatar.png'
         ]);
 
@@ -73,5 +74,19 @@ class UserController extends Controller
     {
         $user = User::findOrFail($id);
         return $this->response->item($user, new UserTransformer);
+    }
+
+    public function search(Request $request)
+    {
+        $keyword = $request->keyword;
+        $users = User::search($keyword)->paginate(5);
+        return $this->response->paginator($users, new UserTransformer());
+    }
+
+    public function searchFaculty(Request $request)
+    {
+        $keyword = $request->keyword;
+        $users = User::search($keyword)->where('type_num', 1)->paginate(12);
+        return $this->response->paginator($users, new UserTransformer());
     }
 }

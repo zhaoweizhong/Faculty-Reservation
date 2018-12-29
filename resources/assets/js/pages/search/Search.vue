@@ -7,9 +7,10 @@
       <div class="search-bar">
         <a-input-search
           style="width: 600px; height: 45px;"
-          placeholder="请输入..."
+          placeholder="输入教师姓名、院系、研究方向、工号搜索..."
           size="large"
           enterButton="搜索"
+          @search="onSearch"
         />
       </div>
     </div>
@@ -31,6 +32,9 @@ export default {
       $(".search-div")
         .eq(0)
         .css("margin-top", "calc(" + divHeight + "/3.6)");
+    },
+    onSearch (value) {
+      this.$router.push('/search/' + value)
     }
   }
 };

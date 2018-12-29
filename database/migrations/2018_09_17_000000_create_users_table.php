@@ -21,6 +21,7 @@ class CreateUsersTable extends Migration
             $table->string('email');
             $table->string('avatar_url')->nullable();
             $table->string('type');
+            $table->boolean('type_num');
             $table->string('department')->nullable();
             $table->text('intro')->nullable();
             $table->boolean('is_admin')->default(0);

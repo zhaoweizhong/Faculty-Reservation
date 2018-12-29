@@ -21,6 +21,7 @@ class UserRequest extends FormRequest
                     'name'     => 'required|string|max:255',
                     'email'    => 'required|email',
                     'type'     => 'required|string|in:student,faculty',
+                    'type_num' => 'required|numeric'
                 ];
                 break;
             case 'PATCH':

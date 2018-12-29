@@ -3,9 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Laravel\Scout\Searchable;
 
 class Message extends Model
 {
+    use Searchable;
+    
     protected $table = 'messages';
     protected $fillable = ['sender_id', 'receiver_id', 'content', 'reply_id', 'reply_src_id'];
 
@@ -15,11 +18,11 @@ class Message extends Model
     * @return User
     */
     public function sender() {
-        return $this->belongsTo('App\Models\User', 'sender_id');
+        return $this->belongsTo('App\Models\User', 'sender_id', 'sid');
     }
 
     public function receiver() {
-        return $this->belongsTo('App\Models\User', 'receiver_id');
+        return $this->belongsTo('App\Models\User', 'receiver_id', 'sid');
     }
 
     public function addReply(Message $reply) {

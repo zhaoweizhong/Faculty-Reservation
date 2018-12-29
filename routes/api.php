@@ -55,6 +55,12 @@ $api->version('v1', [
         //上传图片
         $api->post('images', 'ImagesController@store')
             ->name('api.images.store');
+        //搜索用户
+        $api->post('users/search', 'UserController@search')
+            ->name('api.users.search');
+        //搜索教师
+        $api->post('users/faculty/search', 'UserController@searchFaculty')
+            ->name('api.users.searchFaculty');
         /* 预约 */
         //创建预约
         $api->post('appointments', 'AppointmentsController@store')
