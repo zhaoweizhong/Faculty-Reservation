@@ -28,6 +28,9 @@ $api->version('v1', [
     //用户注册
     $api->post('users', 'UserController@store')
         ->name('api.users.store');
+    //内部注册
+    $api->post('users/spider', 'UserController@storeSpider')
+        ->name('api.users.storeSpider');
     //用户登录
     $api->post('authorizations', 'AuthorizationsController@store')
         ->name('api.authorizations.store');
